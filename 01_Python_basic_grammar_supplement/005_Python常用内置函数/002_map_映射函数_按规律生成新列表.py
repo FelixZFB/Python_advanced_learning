@@ -18,7 +18,7 @@ print(l2)
 l3 = [i for i in range(10)]
 def mulTen(n):
     return n * 10
-l4 = map(mulTen, l1)
+l4 = map(mulTen, l3)
 
 
 print(type(l4))
