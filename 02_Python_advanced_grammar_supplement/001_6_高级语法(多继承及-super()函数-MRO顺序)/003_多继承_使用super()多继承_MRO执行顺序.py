@@ -20,6 +20,7 @@ class Son2(Parent):
         super().__init__(name, *args, **kwargs)  # 为避免多继承报错，使用不定长参数，接受参数
         print('Son2的init结束被调用')
 
+# 多继承
 class Grandson(Son1, Son2):
     def __init__(self, name, age, *args, **kwargs):
         print('Grandson的init开始被调用')
