@@ -15,7 +15,7 @@
 name = "大小明"
 print("我的名字叫 %s，请多多关照！" % name)
 
-# 定义整数变量 student_no，输出 我的学号是 000001
+# 定义整数变量 student_no，输出我的学号是 000001
 student_no = 100123456
 print("我的学号是 %06d" % student_no)
 
