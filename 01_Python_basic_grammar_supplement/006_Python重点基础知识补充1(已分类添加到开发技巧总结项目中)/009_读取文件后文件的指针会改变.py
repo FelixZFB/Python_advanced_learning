@@ -1,5 +1,5 @@
 # 1. 打开文件
-file = open("024_README")
+file = open("009_README")
 
 # 2. 读取文件内容
 text = file.read()
