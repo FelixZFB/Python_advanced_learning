@@ -18,10 +18,12 @@ print(ret.group(0))
 print(ret.group(1))
 print('*' * 50)
 
-# 两个分组
+# 两个分组，第一个分组1，第二个分组2
 ret = re.match(r'([a-zA-Z0-9]{6,12})@(163|126|qq)\.com$', 'laowang@126.com')
 print(ret)
 print(ret.group())
 print(ret.group(1))
 print(ret.group(2))
+# groups可以取出每一个分组，结果是一个元组
+print(ret.groups())
 print('*' * 50)
