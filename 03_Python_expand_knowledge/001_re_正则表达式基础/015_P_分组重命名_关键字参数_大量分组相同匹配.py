@@ -14,5 +14,9 @@ import re
 html_str = '<body><div>hello, world!</div></body>'
 ret = re.match(r'<(?P<name1>\w*)><(?P<name2>\w*)>.*</(?P=name2)></(?P=name1)>', html_str)
 print(ret.group())
+print(ret.group(1))
+print(ret.group(2))
+print(ret.group('name1'))
+print(ret.group('name2'))
 print('*' * 50)
 
