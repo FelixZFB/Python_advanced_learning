@@ -1,0 +1,4 @@
+2019-01-10 23:03:14,406 - ERROR - 27_2.py[:23] - error message
+2019-01-10 23:03:14,406 - CRITICAL - 27_2.py[:24] - critical message
+2019-01-10 23:03:28,677 - ERROR - 27_2.py[:23] - error message
+2019-01-10 23:03:28,677 - CRITICAL - 27_2.py[:24] - critical message
