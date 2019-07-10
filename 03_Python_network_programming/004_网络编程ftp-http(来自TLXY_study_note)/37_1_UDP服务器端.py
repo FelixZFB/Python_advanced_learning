@@ -27,16 +27,13 @@ def serverFunc():
     # 等待方式为死等，没有其他可能性
     # recvfrom接受的返回值是一个tuple,前一项表示数据，后一项表示地址
     # recvfrom参数的含义是缓冲区大小
-    # rst = sock.recvfrom(500)
     data, addr = sock.recvfrom(500)
     print(data)
-    print(type(data))
 
     # 发送过来的数据时bytes格式，必须通过解码才能得到格式的内容
     # decode解码函数默认参数是utf8
     text = data.decode()
     print(text)
-    print(type(text))
 
     # 4.给对方返回消息
     # 发送的消息需要编码成bytes格式
@@ -46,6 +43,7 @@ def serverFunc():
     data = rsp.encode()
     sock.sendto(data, addr)
 
+    # 5. 关闭套接字对象
     sock.close()
 
 if __name__ == '__main__':
