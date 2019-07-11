@@ -17,6 +17,9 @@ def clientFunc():
     text = '我爱你'
     data = text.encode()
     # 发送消息到服务器端
+    # 直接发送消息到指定地址，不需要像TCP客户端先要绑定服务器
+    # 实际UDP的客户端和服务器端并没有严格区分,都可以发送接收
+    # 发送就是sendto，接收就是recvfrom
     sock.sendto(data, ('127.0.0.1', 7852))
 
     # 3. 接受服务器端信息
