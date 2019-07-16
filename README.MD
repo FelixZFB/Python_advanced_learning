@@ -6,6 +6,14 @@
 
 ## Project Structure
 - 01_Python_basic_grammar_supplement
+    Python基础语法补充 
+     
 - 02_Python_advanced_grammar_supplement
-- 03_Python_interview_testing
+    Python高级语法补充
+    
+- 03_Python_network_programming
+    Python网络编程
+    
+- 04_Python_expand_knowledge
+    Python拓展知识   
 

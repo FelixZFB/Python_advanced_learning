@@ -5,7 +5,7 @@ import threading
 
 def fun():
     print("Start fun")
-    time.sleep(2)
+    time.sleep(3)
     print("end fun")
 
 print("Main thread")
@@ -22,5 +22,7 @@ t1.start()
 
 time.sleep(1)
 print("Main thread end")
+
+# 主代码结束，t1子线程也直接结束，即使还没有执行完毕
 
 
