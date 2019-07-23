@@ -3,7 +3,7 @@
 import threading
 
 sum = 0
-loopSum = 100
+loopSum = 100000
 
 def myAdd():
     global sum, loopSum
@@ -41,7 +41,7 @@ if __name__ == '__main__':
     t2.join()
 
     # 加减同时执行，最后发现每次的运行结果都不同
-    # 多线程共享变量出现测冲突问题
+    # 多线程共享变量出现冲突问题
     print("Done...{0}".format(sum))
 '''
 

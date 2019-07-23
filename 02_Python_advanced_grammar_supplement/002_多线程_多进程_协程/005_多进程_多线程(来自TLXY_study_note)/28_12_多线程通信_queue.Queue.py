@@ -1,4 +1,6 @@
 # 生产者消费者实例
+# queue基本队列，按顺序进出
+# 参考007文件夹中多进程通信的案例
 
 import time
 import threading

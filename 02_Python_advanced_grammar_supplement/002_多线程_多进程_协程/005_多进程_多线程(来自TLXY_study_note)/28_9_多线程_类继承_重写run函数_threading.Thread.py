@@ -19,6 +19,7 @@ for i in range(5):
     t = MyThread(i)
     t.start()
     # print(threading.enumerate())
+    # 等待子线程执行结束，再打印下面主线程的语句
     t.join()
 
 # 最后执行的主线程

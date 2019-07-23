@@ -3,7 +3,7 @@
 import threading
 
 sum = 0
-loopSum = 1000000
+loopSum = 100000
 
 def myAdd():
     global sum, loopSum
@@ -15,15 +15,6 @@ def myMinu():
     global sum, loopSum
     for i in range(1, loopSum):
         sum -= 1
-
-if __name__ == '__main__':
-    myAdd()
-    print(sum)
-    # 执行myMinu时候，是在print(sum)之后，此时sum的值是99
-    # sum=99，第一次循环为99-1=98，第二次98-1=97，第99次为1-1=0
-    myMinu()
-    print(sum)
-
 
 # 改写为多线程执行
 if __name__ == '__main__':
@@ -44,6 +35,8 @@ if __name__ == '__main__':
     # 加减同时执行，最后发现每次的运行结果都不同
     # 多线程共享变量出现测冲突问题
     print("Done...{0}".format(sum))
+
+# 注意循环次数为100000,如果用100000，同时执行速度刚刚好，数字改大一点就不能同步了。
 
 
 

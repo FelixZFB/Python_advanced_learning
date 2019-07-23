@@ -11,4 +11,4 @@ for i in range(5):
 
 while not q.empty():
     print(q.get())
-    time.sleep(3)
+    time.sleep(2)

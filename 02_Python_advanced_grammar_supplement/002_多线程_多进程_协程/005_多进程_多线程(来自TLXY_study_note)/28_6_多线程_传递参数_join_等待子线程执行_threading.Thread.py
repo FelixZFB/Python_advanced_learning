@@ -30,10 +30,11 @@ def main():
     t1.start()
     t2 = threading.Thread(target=loop2, args=("Fang", "Bai"))
     t2.start()
-    # time.sleep(6)知道上面的程序时间，手动添加等待时间
+    # time.sleep(6) # 知道上面的程序时间，手动添加等待时间
     # 使用join()函数，等待多线程执行完毕，在执行之后的代码,替代上面手动等待的功能
     t1.join()
     t2.join()
+    # 等待上面子线程执行完毕后，才继续执行后面主线程的语句
     print("All done at: ", time.ctime())
 
 

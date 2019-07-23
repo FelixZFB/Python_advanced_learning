@@ -19,8 +19,9 @@ def run_task(url):
     return 'url:%s -->finish' % url
 
 if __name__ == '__main__':
+    # 指定协程同时执行数量
     pool = Pool(2)
-    urls = ['https://github.com/', 'https://blog.csdn.net/', 'https://bbs.csdn.net/']
+    urls = ['https://github.com/', 'https://blog.csdn.net/', 'https://www.hao123.com/']
     # 协程池执行任务
     results = pool.map(run_task, urls)
     # 打出结果，打出上面返回的结果

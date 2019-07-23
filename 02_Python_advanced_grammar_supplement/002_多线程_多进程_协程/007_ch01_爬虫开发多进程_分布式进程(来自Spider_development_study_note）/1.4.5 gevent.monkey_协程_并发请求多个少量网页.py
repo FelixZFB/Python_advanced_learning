@@ -15,10 +15,12 @@ def run_task(url):
         print("error")
 
 if __name__ == '__main__':
-    urls = ['https://github.com/', 'https://blog.csdn.net/', 'https://bbs.csdn.net/']
-    # 定义协程方法
+    urls = ['https://github.com/', 'https://blog.csdn.net/', 'https://www.hao123.com/']
+    # 定义协程方法，传入函数和参数
+    # 一个列表，传入多个任务
     greenlets = [gevent.spawn(run_task, url) for url in urls]
-    # 添加协程任务，并且启动运行
+    print(greenlets)
+    # 添加多个协程任务，并且启动运行
     gevent.joinall(greenlets)
 
 # 查看运行结果可以发现，三个协程是同时触发的，但是结束顺序不同

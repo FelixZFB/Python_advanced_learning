@@ -9,7 +9,8 @@ def run_proc(name):
 if __name__ == '__main__':
     # 获取父进程的进程识别码
     print("Parent process %s." % os.getppid())
-    # 创建5个子进程
+    # 创建10个子进程
+
     for i in range(5):
         p = Process(target=run_proc, args=(str(i),))
         print("Process will start.")
