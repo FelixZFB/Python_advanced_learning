@@ -18,9 +18,13 @@ if __name__ == '__main__':
     p = Pool(processes=3)
     # 向进程池中添加6个任务
     for i in range(6):
+        # 使用apply_async创建进程
         p.apply_async(run_task, args=(i,))
     print("Waiting for all subprocesses done...")
+    # 关闭进程池，关闭后p不再接收新的请求
     p.close()
+    # 等待所有进程执行结束，再继续执行主代码
+    # 等待po中所有子进程执行完成，必须放在close语句之后
     p.join()
     print("All subprocesses done.")
     # 查看运行结果发现，同时开始的只有三个进程
