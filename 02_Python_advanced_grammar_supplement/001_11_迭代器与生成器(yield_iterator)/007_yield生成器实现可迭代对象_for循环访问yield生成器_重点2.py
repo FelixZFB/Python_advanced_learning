@@ -20,6 +20,6 @@ def f():
 f()
 g = f()
 
-# 上面的g使用for循环访问
+# 上面的g使用for循环访问，for循环自动调用next函数
 for x in g:
     print(x)

@@ -19,6 +19,7 @@ def foo():
 g = foo()
 print("*" * 100)
 
+
 # 包含yield关键字，就变成了生成器函数
 # 调用函数并不会执行语句
 def foo():
@@ -27,7 +28,10 @@ def foo():
         res = yield 4
         print("res:", res)
 
+
 # 下面调用函数并没有执行，可以先将后面的语句注释掉
+# 下面调用foo时，并不是调用执行函数，而是创建了一个生成器对象
+# 生成器对象访问通过next方法
 # 逐行运行代码观察效果
 g = foo()
 print("第一次调用执行结果：")
@@ -38,9 +42,10 @@ print("第二次调用执行结果：")
 print(next(g))
 print("*" * 100)
 
-print("第三次调用执行结果(已经开始了While循环)：")
+print("第三次调用执行结果(已经开始了While循环，继续调用，输出结果都一样)：")
 print(next(g))
 print("*" * 100)
+
 
 # 下面解释代码运行顺序，相当于代码单步调试()：
 # 1.程序开始执行以后，因为foo函数中有yield关键字，所以foo函数并不会真的执行，
@@ -78,13 +83,15 @@ print("*" * 100)
 # 如果永远不调用next()，yield保存的状态就被无视了。
 
 
-# generator是用来产生一系列值的，yield则像是generator函数的返回结果，(yield也可以看似return)
+# generator生成器是用来产生一系列值的，yield则像是generator生成器函数的返回结果，(yield也可以看似return)
 # yield唯一所做的另一件事就是保存一个generator函数的状态
 # （yield和return的区别，return执行后会继续执行后面的代码，但是yield会停止之后的代码继续执行，
 # 注意，只是停止生成器函数内部的代码，生成器函数外部代码不受影响）
-# generator就是一个特殊类型的迭代器（iterator）和迭代器相似，我们可以通过使用next()来从generator中获取下一个值
+# generator就是一个特殊类型的迭代器（iterator），和迭代器相似，我们可以通过使用next()来从generator中获取下一个值
 
-# yield访问的两种方法：调用next()或者send()函数，使用for循环
+# yield生成器访问的两种方法：
+# 调用next()或者send()函数
+# 使用for循环
 
 
 
