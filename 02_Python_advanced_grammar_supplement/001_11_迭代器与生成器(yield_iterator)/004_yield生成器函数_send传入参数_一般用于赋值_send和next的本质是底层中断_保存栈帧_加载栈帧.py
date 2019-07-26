@@ -18,7 +18,7 @@ print(next(g))
 print("*" * 100)
 
 print("第二次调用执行结果(传入参数)：")
-print(g.send(7))
+print(g.send(7)) # g.send(7)执行结果还是yield后面返回的值4
 print("*" * 100)
 
 print("第三次调用执行结果：")

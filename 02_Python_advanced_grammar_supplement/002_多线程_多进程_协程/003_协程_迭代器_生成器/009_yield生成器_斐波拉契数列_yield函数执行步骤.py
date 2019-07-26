@@ -40,7 +40,7 @@ print('*' * 50)
 print(next(fib))
 print('*' * 50)
 
-# 第四次调用，已经没有值可以访问了，抛出异常StopIteration
+# 第四次调用，已经没有值可以访问了，直接抛出异常StopIteration
 print(next(fib))
 print('*' * 50)
 
