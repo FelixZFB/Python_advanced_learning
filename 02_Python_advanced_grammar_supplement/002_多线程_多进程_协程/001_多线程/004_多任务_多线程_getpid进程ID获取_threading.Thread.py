@@ -28,12 +28,12 @@ def main():
     t2.start()
 
 if __name__ == '__main__':
-    # 获取父进程ID,即整个if __name__ == '__main__':下面的代码
+    # 获取父线程ID,即整个if __name__ == '__main__':下面的代码
     print("parent process: ", os.getppid())
 
     main()
 
-    # 获取子进程ID
+    # 获取子线程ID
     print("process id: ", os.getpid())
 
 # 每次唱歌跳舞都是同时执行的

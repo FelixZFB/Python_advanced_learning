@@ -25,7 +25,7 @@ def main():
     p1 = multiprocessing.Process(target=sing)
     p2 = multiprocessing.Process(target=dance)
 
-    # 调用start后，线程才正式开始执行
+    # 调用start后，进程才正式开始执行
     p1.start()
     print(p1.name)
     print(p1.pid)

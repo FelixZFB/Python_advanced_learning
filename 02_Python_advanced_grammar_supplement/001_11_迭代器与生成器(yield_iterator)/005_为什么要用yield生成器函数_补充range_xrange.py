@@ -49,6 +49,7 @@ for n in foo(0):
 # 生成器函数一般都是通过for循环调用，for循环自带next方法
 
 # 爬虫经常使用到yield request，yield item
+# 就是利用的协程实现的多任务多并发
 # 可以参考Spider_development_study_note中ch12中cnblogSpider和shtspider
 # 爬虫主程序中，yield直接写在for循环内部
 # parse函数内部有for循环，有request，
