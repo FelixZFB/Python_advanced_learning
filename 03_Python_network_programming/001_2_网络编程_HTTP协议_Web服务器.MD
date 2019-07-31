@@ -1,0 +1,252 @@
+# **Python高级语法——网络编程——进阶学习笔记**
+
+# 1 HTTP协议
+
+## 1.1 HTTP协议是什么？
+- http协议全名叫做：超文本传输协议。
+- http协议就是通信的双方（通常指客户端和服务器）进行数据传输的一种约定好的规范！
+- 是互联网上最广泛的一种协议。
+- 通俗理解就是规定浏览器和服务器之间数据传输的一种规定约定规范。
+
+    例如，我们打开浏览器，输入http://so.com/就可以访问360搜索，这就是通过http协议进行的一次访问。
+    其实，说了这么多，可能我们对http的理解，还是很模糊，不着急，我们接着往后看。
+    我们举个例子，以前的人们通信的时候通过写信的方式。
+    而一般写信是有格式，一般分为称呼、正文、结尾、署名、日期等等，
+    写信人通过这种格式写完信寄出去，收信人也通过这种格式进行回信。
+    而这种格式就是某种意义上的一种规范协议。当然，很多人会问，不按照这种方式写信，别人都读不懂了吗！
+    当然不是，人是活的，但机器是死的。互相通信的两个机器只能通过某种约定好的协议进行通信，
+    只有通过这种约定好的方式通信，通信的双方才能看懂对方发过来的是什么。
+
+- http协议协议规定就体现在:请求报文（浏览器发给服务器）和响应报文（服务器发给浏览器）里面
+    - 报文里面有四部分组成：状态行、头部（首部行）、空行、体(正文信息)
+    - 头(Head)和正文(Body)以一个空行隔开，参考005_005HTTP请求报文图片
+    - 头信息里面看似类似字典的键值，实际是一连串的字符串，以空格和换行隔开
+    - 目前使用的协议为HTTP/1.1 HTTP/2.0  
+  
+    
+- 请求报文
+
+    请求报文：
+    GET / HTTP/1.1
+    Host: 127.0.0.1:8080
+    Connection: keep-alive
+    Cache-Control: max-age=0
+    Upgrade-Insecure-Requests: 1
+    User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.25 Safari/537.36 Core/1.70.3719.400 QQBrowser/10.5.3715.400
+    Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+    Accept-Encoding: gzip, deflate, br
+    Accept-Language: zh-CN,zh;q=0.9
+    
+    最主要的头两行分析如下：    
+    第一行：
+    GET / HTTP/1.1
+    GET表示一个读取请求，将从服务器获得网页数据，/表示URL的路径，URL总是以/开头，/就表示首页，
+    最后的HTTP/1.1指示采用的HTTP协议版本是1.1。目前HTTP协议的版本就是1.1，
+    但是大部分服务器也支持1.0版本，主要区别在于1.1版本允许多个HTTP请求复用一个TCP连接，以加快传输速度。
+    
+    从第二行开始，每一行都类似于字典格式：  Xxx: abcdefg
+    Host: www.sina.com
+    表示请求的域名是www.sina.com。如果一台服务器有多个网站，服务器就需要通过Host来区分浏览器请求的是哪个网站。
+    参考图片：005_005/006/007
+    005_010HTTP请求报文实例
+ 
+    
+- 响应报文
+    
+    HTTP/1.1 200 OK
+    Date: Wed, 31 Jul 2019 03:25:29 GMT
+    Content-Type: text/html; charset=utf-8
+    Transfer-Encoding: chunked
+    Connection: keep-alive
+    Server: nginx
+    Cache-Control: public, max-age=900, must-revalidate
+    Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' http://a.alimama.cn g.click.taobao.com platform.sina.com.cn suggestion.baidu.com www.baidu.com hm.baidu.com nssug.baidu.com tui.cnzz.net www.google-analytics.com *.googlesyndication.com static.huohu123.com https://www.duba.com/main3_json.html http://www.duba.com/main3_json.html; img-src * data:; child-src 'self' *.firefoxchina.cn  *.17huohu.com; frame-src 'self' *.firefoxchina.cn  *.17huohu.com www.taobao.com entry.baidu.com; frame-ancestors 'self' *.firefoxchina.cn tongji.baidu.com about:; style-src 'self' 'unsafe-inline'; font-src 'self' data: ; report-uri /_/csp-reports
+    Content-Encoding: gzip
+    Age: 629
+    X-Via: 1.1 PShbtssxve43:4 (Cdn Cache Server V2.0), 1.1 PSscyd4hb221:12 (Cdn Cache Server V2.0)
+    
+    HTTP响应分为Header(包含状态栏和首部行)和Body两部分（Body是可选项）
+    响应报文的Header用来告诉浏览器如何解析Body（用什么解码，语言是什么等等）
+    Body是浏览器显示出来的内容
+        
+    我们在Network中看到的Header最重要的几行如下：
+    HTTP/1.1 200 OK
+    200表示一个成功的响应，后面的OK是说明。
+    如果返回的不是200，那么往往有其他的功能，例如
+    失败的响应有404 Not Found：网页不存在
+    500 Internal Server Error：服务器内部出错
+    ...等等...
+
+    Content-Type: text/html
+    Content-Type指示响应的内容，这里是text/html表示HTML网页。
+    请注意，浏览器就是依靠Content-Type来判断响应的内容是网页还是图片，是视频还是音乐。
+    浏览器并不靠URL来判断响应的内容，所以，即使URL是http://www.baidu.com/meimei.jpg，它也不一定就是图片。
+    HTTP响应的Body就是HTML源码。
+    
+    请再次注意，Body的数据类型由Content-Type头来确定，
+    如果是网页，Body就是文本，如果是图片，Body就是图片的二进制数据。
+    当存在Content-Encoding时，Body数据是被压缩的，最常见的压缩方式是gzip，
+    所以，看到Content-Encoding: gzip时，需要将Body数据先解压缩，才能得到真正的数据。
+    压缩的目的在于减少Body的大小，加快网络传输。
+    
+    参考图片：005_008/009
+    005_011HTTP响应报文实例
+
+
+- 模拟HTTP请求
+    1. 打开网络助手，选择TCP服务器端，打开
+    2. 打开浏览器，输入网址：127.0.0.1:8080
+    3. 打开网址，网络调试助手中就接收到请求报文了
+    
+    请求报文：
+    GET / HTTP/1.1
+    Host: 127.0.0.1:8080
+    Connection: keep-alive
+    Cache-Control: max-age=0
+    Upgrade-Insecure-Requests: 1
+    User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.25 Safari/537.36 Core/1.70.3719.400 QQBrowser/10.5.3715.400
+    Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+    Accept-Encoding: gzip, deflate, br
+    Accept-Language: zh-CN,zh;q=0.9
+    
+    4. 网络调试助手,编辑消息发送回去，作为响应报文
+    
+    响应报文（至少有以下三行信息，状态，空行，正文）：
+    HTTP/1.1 200 OK
+
+    <h1>我是响应正文</h1>
+    
+    参考图片：006_http请求过程模拟结果
+   
+    
+## 1.2 HTTP协议的特点
+- http协议的特点总结起来就一下几点：
+    1、http协议支持客户端/服务端模式，也是一种请求/响应模式的协议。
+    2、无连接
+        所谓的无连接就是服务器收到了客户端的请求之后，响应完成并收到客户端的应答之后，即断开连接。
+        限制每次的连接只处理一次请求。从而节省传输时间。
+    3、无状态
+        http协议对事务的处理没有记忆能力。
+        也就意味着如果需要前面的信息，只能重传，这无形之中增加数据的传输量。
+        这种方式某种方面上讲解放了服务器，但是却不利于客户端与服务器的连接。
+        为了弥补这种不足，产生了两项记录http状态的技术，一个叫做Cookie,一个叫做Session。
+    4、简单快捷
+        所谓的简单快捷是指客户端向服务器请求服务时，一般来说只需要传输请求方法和路径，就能进行访问。
+    5、灵活
+        这里主要指的是客户端可以通过http协议传输任意类型的数据。
+        比如传输.jpg文件、.ppt文件等等，只需要设定content-type就可以进行传输。
+ 
+        
+## 1.3 http请求/响应的步骤是什么(打开网页的步骤)？
+- 具体步骤：
+    1、客户端连接到web服务器：客户端，我们通常指的是浏览器，与web服务器的http端口（默认情况下80）建立一个TCP套接字的连接。
+    2、发送HTTP请求：通过TCP套接字，浏览器向web服务器发送一个请求报文，一个请求报文包括请求行、请求头、空行、请求体四部分。
+    3、服务器端解析请求并返回http响应：web服务器解析请求，定位资源，返回响应报文。
+    4、释放TCP连接：web浏览器主动关闭TCP套接字，关闭TCP连接。而客户端则需要被动的关闭TCP套接字，释放TCP连接。
+    5、客户端浏览器解析响应报文，解析成HTML内容，经过浏览器的渲染之后就能展示给人们了。
+    参考图片：
+    005_003HTTP代理访问WEB的流程
+    005_004上网HTTP协议流程
+
+   
+# 2 Web服务器
+- Web静态服务器
+    - 参考案例001_Web静态服务器_显示固定的页面
+
+## 2.1 TCP--3次握手4次挥手
+
+- TCP在真正的读写操作之前，server与client之间必须建立一个连接，
+    当读写操作完成后，双方不再需要这个连接时它们可以释放这个连接，
+    连接的建立通过三次握手，释放则需要四次握手，
+    所以说每个连接的建立都是需要资源消耗和时间消耗的。
+    
+- 对象
+    TCP客户端与服务器端
+    
+- 目的（礼尚往来）：
+    - 3次握手：建立连接（占用资源）
+    - 4次挥手：断开连接（释放资源）
+
+- 通俗理解：
+    我发你数据你要回我（过去回来共2次），
+    你发我数据我要回你（过去回来共2次），
+    一来一去一共4次（实际中握手有2次是1次完成的，就变成了3次握手，4次挥手）
+
+- 3次握手4次挥手流程：
+- 3次握手：
+    - TCP客户端的connect方法默认是阻塞的，只有3次握手成功，创建连接后才解阻塞
+        参考案例：002文件夹中的001_TCP客户端
+    - 第1次：客户端发送数据给服务器端，客户端要连接服务器，让服务器准备好资源
+    - 第2次：服务器发送数据给客户端，告诉客户端我已经准备好了资源，同时让客户端也准备好资源
+        (实际第2次是两次，但是都是服务器发送给客户端，当做1次
+        第2-1次回复第1次客户端过来的数据，
+        第2-2次是服务器发送数据给客户端，让客户端准备好资源
+        为了减少连接次数，可以当做一次握手)
+    - 第3次：客户端确认也准备好了，双方都已经准备好资源，创建连接
+    - 3次握手，建立连接成功（占用资源）
+    
+- 4次挥手：
+    - 目的：客户端和服务器端断开连接
+    - 注意：TCP连接都是双工模式，同时可发收数据
+    - 第1次：客户端关闭发送数据，客户端发送消息给服务器，我要关闭发送了
+    - 第2次：服务器发送数据给客户端，我已收到数据，我要关闭接收数据了
+    - 第3次：服务器发送数据给客户端，我要关闭发送数据了
+    - 第4次：客户端发送数据给服务器，我已接收到数据，我也关闭接收数据了
+    - 上述过程：一般都是客户端先发起关闭close连接请求
+    - 注意：
+        2,3都是服务器发数据给客户端，但是2和3不能合并，有可能服务器延时一会儿在发送我要关闭发送数据，因此2次挥手是独立的
+        第3次服务器发送数据给客户端，可能客户端收不到，一般加入超时等待，如果客户端没有回应，
+        服务器就在发送一次数据，一般超时等待2msl    
+    - 4次挥手，断开连接成功（释放资源）
+    - 参考图片：007_TCP通信过程的三次握手四次挥手
+    - 图片中：x x+1 y+1 y+2 用于数据之间的确认，发送一个值过来，接收到数据则返回一个值
+    
+## 2.2 TCP短连接长连接
+
+- TCP短连接
+    模拟一种TCP短连接的情况:
+        1. client 向 server 发起连接请求
+        2. server 接到请求，双方建立连接
+        3. client 向 server 发送消息
+        4. server 回应 client
+        5. 一次读写完成，此时双方任何一个都可以发起 close 操作
+    在步骤5中，一般都是 client 先发起 close 操作。当然也不排除有特殊的情况。
+    从上面的描述看，短连接一般只会在 client/server 间传递一次读写操作！
+    
+- TCP长连接
+    再模拟一种长连接的情况:
+        1. client 向 server 发起连接
+        2. server 接到请求，双方建立连接
+        3. client 向 server 发送消息
+        4. server 回应 client
+        5. 一次读写完成，连接不关闭
+        6. 后续读写操作...
+        7. 长时间操作之后client发起关闭请求
+
+- TCP长/短连接的优点和缺点
+    - 长连接可以省去较多的TCP建立和关闭的操作，减少浪费，节约时间。
+        对于频繁请求资源的客户来说，较适用长连接。
+    - client与server之间的连接如果一直不关闭的话，会存在一个问题，
+        随着客户端连接越来越多，server早晚有扛不住的时候，这时候server端需要采取一些策略，
+        如关闭一些长时间没有读写事件发生的连接，这样可以避免一些恶意连接导致server端服务受损；
+        如果条件再允许就可以以客户端机器为颗粒度，限制每个客户端的最大长连接数，
+        这样可以完全避免某个蛋疼的客户端连累后端服务。
+    - 短连接对于服务器来说管理较为简单，存在的连接都是有用的连接，不需要额外的控制手段。
+    - 但如果客户请求频繁，将在TCP的建立和关闭操作上浪费时间和带宽。
+    
+- TCP长/短连接的应用场景
+    - 长连接多用于操作频繁，点对点的通讯，而且连接数不能太多情况，比如数据库的连接。
+        每个TCP连接都需要三次握手，这需要时间，如果每个操作都是先连接，
+        再操作的话那么处理速度会降低很多，所以每个操作完后都不断开，
+        再次处理时直接发送数据包就OK了，不用建立TCP连接。
+        例如：数据库的连接用长连接，如果用短连接频繁的通信会造成socket错误，
+        而且频繁的socket 创建也是对资源的浪费。
+    - 而像WEB网站的http服务一般都用短链接，因为长连接对于服务端来说会耗费一定的资源，
+        而像WEB网站这么频繁的成千上万甚至上亿客户端的连接用短连接会更省一些资源，
+        如果用长连接，而且同时有成千上万的用户，如果每个用户都占用一个连接的话，
+        那可想而知吧。所以并发量大，但每个用户无需频繁操作情况下需用短连好。
+
+
+    
+
+
