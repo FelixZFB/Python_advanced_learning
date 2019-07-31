@@ -82,10 +82,12 @@ def main():
     # 加入循环，服务器一直处于运行状态，可以不断接收新的客户端请求，
     # 浏览器可以通过刷新不断请求该服务器
     while True:
-        # 4. 等待新客户端的连接，返回一个新的客户端专用套接字
+        # 4. 等待新客户端的连接，返回一个新的客户端专用套接字，accept()默认是阻塞的
         new_socket, client_addr = server_socket.accept()
 
         # 5. 使用多进程为这个客户端服务，有新的请求，又重新创建一个子进程
+        # 此时每来一个用户就单独创建一个子进程，每个子进程都是独立，即使某个用户出现了超时也不会影响其它用户
+        # 多进程多线程多协程都可以实现多任务，单进程设置为非阻塞也可以实现多任务，参考006案例
         new_process = multiprocessing.Process(target=service_client, args=(new_socket, ))
         new_process.start()
 
