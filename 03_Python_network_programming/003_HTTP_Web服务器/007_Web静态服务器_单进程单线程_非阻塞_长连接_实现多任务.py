@@ -18,6 +18,7 @@ import time
 
 def service_client(request_data, client_socket):
     "为一个客户端进行服务,为这个客户端返回数据"
+    # 1. 处理接收到的请求数据
     if not request_data:
         return
 
@@ -48,22 +49,25 @@ def service_client(request_data, client_socket):
         response_header = "HTTP/1.1 404 not found\r\n"
         response_header += "\r\n"
         response_body = "====sorry ,file not found===="
-    else:
-        # 2.1 组织相应头信息(header)，浏览器中换行使用\r\n
-        response_header = "HTTP/1.1 200 OK\r\n"  # 200表示找到这个资源
-        response_header += "\r\n"  # 用一个空的行与body进行隔开，作为换行符
-        # 组织内容(body)
-        # 返回一个本地已经编辑好的前端html页面
-        response_body = f.read()
-        f.close()
-    finally:
-        # 2.2 组织响应报文，发送数据,由于已经不是单纯的字符串，不能使用拼接
-        # 头和体信息单独发送
-        # response = response_header + response_body
         # 先发送头header信息
         client_socket.send(response_header.encode("utf-8"))
         # 再发送body信息
-        client_socket.send(response_body)
+        client_socket.send(response_body.encode("utf-8"))
+
+    else:
+        # 2.1 组织相应头信息(header)，浏览器中换行使用\r\n
+        response_body = f.read()
+        f.close()
+
+        response_header = "HTTP/1.1 200 OK\r\n"  # 200表示找到这个资源
+        # 告诉客户端body数据的长度，可以消除长连接一直等待数据问题
+        response_header += "Content-Length:%d\r\n" % len(response_body)
+        response_header += "\r\n"  # 用一个空的行与body进行隔开，作为换行符
+
+        # 2.2 组织响应报文，发送数据
+        # 合并header信息（先编码为二进制）和body信息
+        response = response_header.encode("utf-8") + response_body
+        client_socket.send(response)
 
 
 def main():
@@ -107,6 +111,7 @@ def main():
 
         # 循环为每个客户端服务
         for client_socket in client_socket_list:
+            # 有些客户端可能没有发送数据过来，使用try语句判断
             try:
                 # 1. 接收浏览器发送过来的请求，即HTTP请求
                 # 注意，如果客户端调用close,request_data就为空，因此下面使用了if判断是否有数据
@@ -119,6 +124,10 @@ def main():
                     # 对方发送过来了数据
                     print('---客户端发来了消息---')
                     service_client(request_data, client_socket)
+                    # 每一次接收数据发送数据后就主动断开连接，短连接模式，每次接发送数据一次
+                    # 下面2行代码注释掉就变成了长连接模式了，参考006案例代码底部运行方式4的说明
+                    # client_socket.close()
+                    # client_socket_list.remove(client_socket)
                 else:
                     # 如果没有消息或者对方调用close关闭客户端，并从列表中移除
                     client_socket.close()
@@ -130,31 +139,14 @@ def main():
 if __name__ == "__main__":
     main()
 
-# 运行方式1：
-# while True之后加入等待时间
-# 运行代码
-# 打开三个网络调试助手，作为TCP客户端，连接到该服务器
-# 可以看到连接状态，由于代码处理的是浏览器的请求，网络调试助手发送消息过来会产生错误
-# 参考006_单进程单线程非阻塞运行运行结果1
+# 上面代码已经变为了长连接，上面已经加入了body的长度，消除了浏览器一直等待数据的问题
+# 此时打开浏览器运行，数据都可以正常请求显示出来
 
-# 运行方式2：
-# 使用网络调试助手模拟浏览器的请求
-# 请求一个网页，发送消息里面模拟浏览器的 请求头消息：get /index.html
-# 程序运行结果打印出消息，程序将header和body信息返回给调试助手
-# 参考006_单进程单线程非阻塞运行运行结果2
+# 上面调用service_client(request_data, client_socket)后，
+# 下面关闭代码已经注释掉了，客户端会一直保持和服务器的连接
+# while再次循环时，该浏览器（固定IP和端口）再次请求一个新的网页，还是使用之前未关闭的客户端
+# 如果while再次循环没有数据请求，则调用else关闭该客户端
+# 长连接主要目的，减少连接次数，减少占用服务器的资源
+# 客户请求频繁，将在TCP的建立和关闭操作上浪费时间和带宽
 
 
-# 运行方式3（展示多任务执行效果）：
-# 打开2个网络调试助手，模拟两个浏览器客户端
-# 多任务模式
-# 同时连接然后，发送消息，都收到消息后，断开连接
-# 运行结果里面list有两个socket客户端
-# 参考006_单进程单线程非阻塞运行运行结果3
-
-
-# 运行方式4（未显示出多任务效果）：
-# 如果使用浏览器请求
-# 由于浏览器会自己刷新，不断请求，消息还来不及返回到浏览器，新的客户端又来
-# 客户端会越来越多，查看CPU都一会儿就满负荷了
-# 打印结果发现list会越来越多
-# 停止程序，浏览器才会显示出页面
