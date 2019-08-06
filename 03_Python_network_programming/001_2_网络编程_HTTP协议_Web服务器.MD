@@ -346,10 +346,10 @@
 - 静态请求：资源一直存在（文字，图片等），请求时候拿去
 
 - 浏览器请求动态页面过程
-    参考图片009
+    参考图片009/010
     案例001/002
 
-## 3.2 WSGI接口  MiniWeb框架
+## 3.2 WSGI接口  MiniWeb框架 介绍
 - Web Server Gateway Interface (或简称 WSGI，读作“wizgy”)
 - WSGI允许开发者将选择web框架和web服务器分开。
     可以混合匹配web服务器和web框架，选择一个适合的配对。
@@ -368,12 +368,17 @@
     我们来看一个最简单的Web版本的“Hel、lo World!”
     
     def application(environ, start_response):
-    start_response('200 OK', [('Content-Type', 'text/html')])
-    return 'Hello World!'
+        start_response('200 OK', [('Content-Type', 'text/html')])
+        return 'Hello World!'
 
     上面的application()函数就是符合WSGI标准的一个HTTP处理函数，它接收两个参数：
-    environ：一个包含所有HTTP请求信息的dict对象；
-    start_response：一个发送HTTP响应的函数。
+    environ：一个包含所有HTTP请求信息的dict对象
+    start_response：一个发送HTTP响应的函数
+        该函数传入两个参数：
+        '200 OK'
+        [('Content-Type', 'text/html')]
+        - 参考002_MSGI_MiniWeb_Web服务器_支持MSGI接口案例
+        - 参数作为属性然后设置为为header的值
 
     整个application()函数本身没有涉及到任何解析HTTP的部分，也就是说，
     把底层web服务器解析部分和应用程序逻辑部分进行了分离，这样开发者就可以专心做一个领域了
@@ -383,3 +388,16 @@
 
     所以application()函数必须由WSGI服务器来调用。有很多符合WSGI规范的服务器。
     而我们此时的web服务器项目的目的就是做一个既能解析静态网页还可以解析动态网页的服务器
+    
+    Web服务器通过WSGI协议最终返回header和body信息给浏览器，参考图片009/010
+    
+    
+## 3.3 Web服务器使用WSGI接口
+- 直接参考案例
+- 001_MSGI_MiniWeb_Web服务器和逻辑处理代码分开
+    动态请求单独使用mini_frame处理请求
+    
+- 002_MSGI_MiniWeb_Web服务器_支持MSGI接口
+    定义一个MSGI接口，Web服务器接入MSGI接口用于处理header和body信息
+    然后返回给服务器，再由服务器返回给浏览器
+ 

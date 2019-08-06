@@ -2,6 +2,8 @@
 <module type="PYTHON_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/03_Python_network_programming" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/03_Python_network_programming/005_MSGI_Mini_Web框架/001_MSGI_MiniWeb_Web服务器和逻辑处理代码分开" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/venv" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.7 (Python_advanced_learning)" jdkType="Python SDK" />

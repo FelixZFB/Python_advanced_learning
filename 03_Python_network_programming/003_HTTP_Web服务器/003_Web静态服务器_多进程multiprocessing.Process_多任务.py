@@ -30,7 +30,7 @@ def service_client(new_socket):
     # 请求头的第一行request_line：GET /index.html HTTP/1.1
     # 匹配结果：GET /index.html 我们提取出/以后的内容
     get_file_name = re.match("[^/]+(/[^ ]*)", request_line).group(1)
-    # 加入系统路径，网页都是放在html文件夹中
+    # 加入网页所在的系统路径，网页都是放在html文件夹中
     get_file_name = "./html" + get_file_name
     print("file name is ===>%s" % get_file_name)
     print('*' * 50)
@@ -39,26 +39,28 @@ def service_client(new_socket):
     # 请求的网页也可能不存在，加入try语句
     try:
         f = open(get_file_name, 'rb')
+
     except:
+        # 如果请求的页面不能打开，即不存在，返回以下信息
         response_header = "HTTP/1.1 404 not found\r\n"
         response_header += "\r\n"
         response_body = "====sorry ,file not found===="
+        response = response_header + response_body
+        new_socket.send(response.encode("utf-8"))
+
     else:
-        # 2.1 组织相应头信息(header)，浏览器中换行使用\r\n
+        # 页面存在，则返回相应的页面信息
+        # 2.1 组织响应头信息(header)，浏览器中换行使用\r\n
         response_header = "HTTP/1.1 200 OK\r\n"  # 200表示找到这个资源
         response_header += "\r\n"  # 用一个空的行与body进行隔开，作为换行符
         # 组织内容(body)
         # 返回一个本地已经编辑好的前端html页面
         response_body = f.read()
         f.close()
-    finally:
         # 2.2 组织响应报文，发送数据,由于已经不是单纯的字符串，不能使用拼接
-        # 头和体信息单独发送
-        # response = response_header + response_body
-        # 先发送头header信息
-        new_socket.send(response_header.encode("utf-8"))
-        # 再发送body信息
-        new_socket.send(response_body)
+        # 头和体信息单独发送,或者编码后一起发送
+        response = response_header.encode("utf-8") + response_body
+        new_socket.send(response)
 
         # 3. 关闭客户端套接字
         new_socket.close()
