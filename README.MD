@@ -1,4 +1,4 @@
-# Python_advanced_learning
+## Python_advanced_learning
 - Summary of key and difficult points of Python study.
 
 ## Python进阶学习
@@ -12,8 +12,17 @@
     Python高级语法补充
     
 - 03_Python_network_programming
-    Python网络编程
+    Python网络编程   
+    - UDP
+    - TCP
+    - HTTP Web服务器
+    - Wireshark抓包使用
+    - 
     
 - 04_Python_expand_knowledge
     Python拓展知识   
+    - re正则表达式
+    - XPath
+    - LXML BS4
+    - 网络爬虫之网页请求   
 
