@@ -2,6 +2,7 @@
 
 # 专门用于逻辑处理，与Web服务器进行分开
 # application()函数就是符合WSGI标准的一个HTTP处理函数
+# 加入charset=utf-8就可以支持中文了
 
 def application(environ, start_response):
     start_response('200 OK', [('Content-Type', 'text/html;charset=utf-8'), ('Connection', 'keep-alive')])

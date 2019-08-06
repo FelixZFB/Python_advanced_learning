@@ -400,4 +400,16 @@
 - 002_MSGI_MiniWeb_Web服务器_支持MSGI接口
     定义一个MSGI接口，Web服务器接入MSGI接口用于处理header和body信息
     然后返回给服务器，再由服务器返回给浏览器
+   
+- 003_MSGI_MiniWeb_Web服务器__dict使用(通过传递字典实现浏览器不同的动态请求)
+    002基础进行升级，使用dict传递参数，传递参数给web框架，
+    web根据传过来参数处理具体不同的动态请求
+    
+- 004_MiniWeb_Web服务器_实现模板文件
+    各功能进行封装到包里面
+    web_server作为服务器控制整个过程
+    dynamic里面放置web框架，用于处理动态请求
+    static里面放置css js静态文件，静态请求直接打开调用
+    templates放置一些固定的前端html框架页面，到时候动态请求可以直接调用  
+    
  

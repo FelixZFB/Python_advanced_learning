@@ -46,10 +46,10 @@ class WSGIServer():
         # 匹配出出空格外的任何内容，即从第一个/开始匹配到空格结束
         # 请求头的第一行request_line：GET /index.html HTTP/1.1
         # 匹配结果：GET /index.html 我们提取出/及以后的内容
-        get_file_name = re.match("[^/]+(/[^ ]*)", request_line).group(1)
+        file_name = re.match("[^/]+(/[^ ]*)", request_line).group(1)
         # 加入网页所在的系统路径，网页都是放在html文件夹中，此时html是放在上级目录，上上级使用../../html
-        file_name = "../html" + get_file_name
-        print("file name is ===>%s" % get_file_name)
+        html_file_name = "../html" + file_name
+        print("file name is ===>%s" % file_name)
         print('*' * 50)
 
         # 2. 返回http格式的数据给浏览器
@@ -59,7 +59,7 @@ class WSGIServer():
         if not file_name.endswith('.py'):
             # 请求的网页也可能不存在，加入try语句
             try:
-                f = open(file_name, 'rb')
+                f = open(html_file_name, 'rb')
 
             except:
                 # 如果请求的页面不能打开，即不存在，返回以下信息
@@ -89,7 +89,7 @@ class WSGIServer():
             response_header += "\r\n"
             # response_body = '哈哈哈，我是动态资源请求的结果 %s ' % time.ctime()
             # 调用mini_frame专门用于动态请求
-            response_body = mini_frame.application(get_file_name)
+            response_body = mini_frame.application(file_name)
 
             # 浏览器默认解析使用的是gbk，gbk可以显示更多的汉字，此处使用utf-8会乱码
             # 如果是html源码，meta标签里面的charset指定编码是utf-8就可以完美显示中文了

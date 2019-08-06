@@ -46,10 +46,10 @@ class WSGIServer():
         # 匹配出出空格外的任何内容，即从第一个/开始匹配到空格结束
         # 请求头的第一行request_line：GET /index.html HTTP/1.1
         # 匹配结果：GET /index.html 我们提取出/及以后的内容
-        get_file_name = re.match("[^/]+(/[^ ]*)", request_line).group(1)
+        file_name = re.match("[^/]+(/[^ ]*)", request_line).group(1)
         # 加入网页所在的系统路径，网页都是放在html文件夹中，此时html是放在上级目录，上上级使用../../html
-        file_name = "../html" + get_file_name
-        print("file name is ===>%s" % get_file_name)
+        html_file_name = "../html" + file_name
+        print("file name is ===>%s" % file_name)
         print('*' * 50)
 
         # 2. 返回http格式的数据给浏览器
@@ -59,7 +59,7 @@ class WSGIServer():
         if not file_name.endswith('.py'):
             # 请求的网页也可能不存在，加入try语句
             try:
-                f = open(file_name, 'rb')
+                f = open(html_file_name, 'rb')
 
             except:
                 # 如果请求的页面不能打开，即不存在，返回以下信息
@@ -85,7 +85,7 @@ class WSGIServer():
 
         else:
             # 2.2 如果是以.py结尾，那么就认为是动态资源请求
-            # 调用mini_frame专门用于动态请求
+            # 动态请求，就调用mini_frame框架
             # 以下代码就实现了Web服务器支持MSGI协议
             # 代码执行流程：查看mini_frame.py中的说明
             env = dict()
