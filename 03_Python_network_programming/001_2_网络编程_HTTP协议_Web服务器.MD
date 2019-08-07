@@ -405,11 +405,52 @@
     002基础进行升级，使用dict传递参数，传递参数给web框架，
     web根据传过来参数处理具体不同的动态请求
     
-- 004_MiniWeb_Web服务器_实现模板文件
+- 004_MiniWeb_Web服务器_实现模板文件_使用指定模板
     各功能进行封装到包里面
+    代码里面直接导入模块，调用函数
     web_server作为服务器控制整个过程
     dynamic里面放置web框架，用于处理动态请求
     static里面放置css js静态文件，静态请求直接打开调用
     templates放置一些固定的前端html框架页面，到时候动态请求可以直接调用  
+    
+- 005_MiniWeb_Web服务器_实现模板文件_指定端口及框架
+    运行代码时候指定端口和框架
+    我们就可以指定不同的接口和框架了
+    运行代码时候传参数，只需要主代码main函数中加入sys.argv
+    argv就是CMD窗口中运行时python之后传递来的参数
+    然后服务器main函数中提取出传递的参数
+    
+    CMD窗口中运行python脚本(虚拟环境下运行py文件)
+    参考：https://blog.csdn.net/u011318077/article/details/98733967
+    
+    第一步：指定端口
+    main函数中修改代码用于接收port参数，然后WSGIServer(port)传递到
+    self.tcp_server_socket.bind(("", port))中绑定端口
+    CMD虚拟环境下指定端口运行代码：
+    python web_server.py 7888
+    浏览器打开：http://127.0.0.1:7788/center.py
+    
+    第二步：指定框架
+    main函数中修改代码用于接收框架的参数，然后WSGIServer(port, app)传递到
+    self.application = app 
+    # 直接使用外面传入的模块参数self.application = app
+    body = self.application(env, self.set_response_header)
+    CMD虚拟环境下指定端口运行代码：
+    python web_server.py 7788 mini_frame:application
+    浏览器打开：http://127.0.0.1:7788/center.py
+    
+- 006_MiniWeb_Web服务器_实现模板文件_添加Web服务器的配置文件
+    005还是解耦（功能分离，模块化）不够充分，006进行升级
+    005中的web服务器中还有框架的相关代码，53和148行还有处理静态请求的文件夹和处理动态请求的文件夹路径
+    006中将该部分内容分离出来，单独放到一个web_server.conf配置文件中
+    该配置文件专门用于存储处理静态和动态请求的框架
+    如此，就将服务器和框架完全分离了
+    以后具体处理的框架都单独放在文件夹中，然后将框架路径添加到配置文件中
+    后期修改，就只需要修改配置文件和框架里面的文件了，服务器文件不用修改了
+    CMD虚拟环境下指定端口运行代码：
+    python web_server.py 7788 mini_frame:application
+    浏览器打开：http://127.0.0.1:7788/center.py
+    
+    
     
  

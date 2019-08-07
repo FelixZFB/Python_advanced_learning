@@ -31,5 +31,5 @@ def application(env, start_response):
 # dynamic文件夹中的mini_frame.py需要打开templates中的文件
 # 使用的是一个点：./templates/index.html
 # 如果使用../templates/index.html，就是到web_server.py上一级目录里面去找templates文件夹了
-# 比如03_Python_network_programming\005_MSGI_Mini_Web框架\004_MiniWeb_Web服务器_实现模板文件
+# 比如03_Python_network_programming\005_MSGI_Mini_Web框架\004_MiniWeb_Web服务器_实现模板文件_使用指定模板
 # \web_server.py

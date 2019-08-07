@@ -2,20 +2,24 @@ import socket
 import re
 import multiprocessing
 import time
+import sys
 import dynamic.mini_frame
 
 
 class WSGIServer(object):
-    def __init__(self):
+    def __init__(self, port, app):
         # 1. 创建套接字
         self.tcp_server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.tcp_server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
-        # 2. 绑定
-        self.tcp_server_socket.bind(("", 7890))
+        # 2. 绑定,使用外部参数port
+        self.tcp_server_socket.bind(("", port))
 
         # 3. 变为监听套接字
         self.tcp_server_socket.listen(128)
+
+        # 使用外部参数app
+        self.application = app
 
     def service_client(self, new_socket):
         """为这个客户端返回数据"""
@@ -71,7 +75,8 @@ class WSGIServer(object):
             env = dict()  # 这个字典中存放的是web服务器要传递给 web框架的数据信息
             env['PATH_INFO'] = file_name
             # {"PATH_INFO": "/index.py"}
-            body = dynamic.mini_frame.application(env, self.set_response_header)
+            # 直接使用外面传入的模块参数self.application = app
+            body = self.application(env, self.set_response_header)
 
             header = "HTTP/1.1 %s\r\n" % self.status
 
@@ -114,10 +119,48 @@ class WSGIServer(object):
 
 def main():
     """控制整体，创建一个web 服务器对象，然后调用这个对象的run_forever方法运行"""
-    wsgi_server = WSGIServer()
+    # sys.argv获取命令行启动时传入的参数
+    # 先判断python之后传入的参数是不是三个，然后取出第2个参数即为port接口，第三个参数即框架
+    if len(sys.argv) == 3:
+        try:
+            port = int(sys.argv[1]) # 7890
+            frame_app_name = sys.argv[2] # mini_frame:application
+        except Exception as ret:
+            print('端口输入错误......%s' % ret)
+            return
+
+    else:
+        print('请按照以下格式运行代码')
+        print('python xxx.py 7788 mini_frame:application')
+        return # return没有返回值，执行到此结束函数
+
+    # mini_frame:application
+    ret = re.match(r"([^:]+):(.*)", frame_app_name)
+    if ret:
+        frame_name = ret.group(1) # mini_frame
+        app_name = ret.group(2) # application
+    else:
+        print('请按照以下格式运行代码')
+        print('python xxx.py 7788 mini_frame:application')
+        return  # return没有返回值，执行到此结束函数
+
+    # 将dynamic模块文件夹加入到系统路径中，下面的__import__就可以到文件夹中去查找了
+    sys.path.append('./dynamic')
+    # 变量名作为模块导入，使用__import__
+    frame = __import__(frame_name) # 返回值标记导入的这个模块
+    app = getattr(frame, app_name) # 返回值app此时就指向了dynamic文件夹中mini_frame模块的application函数
+    # print(frame, app) # <module 'mini_frame' from './dynamic\\mini_frame.py'> <function application at 0x0000026B29E4FF28>
+
+    wsgi_server = WSGIServer(port, app)
     wsgi_server.run_forever()
 
 
 if __name__ == "__main__":
     main()
 
+# CMD窗口激活项目所在的虚拟环境，然后切换到web_server.py所在的目录
+# 然后使用python web_server.py 7788 mini_frame:application指定端口和框架运行
+# 然后网页打开http://127.0.0.1:7788/index.py
+
+# (venv) D:\Hello World\python_work\Python_advanced_learning\03_Python_network_programming\
+# 005_MSGI_Mini_Web框架\005_MiniWeb_Web服务器_实现模板文件_指定端口及框架>python web_server.py 7788 mini_frame:application
