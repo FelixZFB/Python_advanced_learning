@@ -6,9 +6,11 @@ class Test(object):
     def __call__(self, *args, **kwargs):
         print('call called')
 
+# 创建一个实例对象
 t = Test()
 print(type(t))
-print(t())
+print(t()) # 先执行t(),结果就是打印出call called，然后打印出t(),没有返回值，因此结果就是None
+print('*' * 50)
 
 # 使用类装饰函数
 class Test(object):
@@ -30,6 +32,10 @@ def test():
 test()
 
 # 和之前的原理一样，当python解释器执行到到@Test时，
-# 会把当前test函数作为参数传入Test对象，首先调用init方法，
-# 同时将test函数指向创建的Test对象，那么在接下来执行test()的时候，
+# 会把当前test函数作为参数传入Test对象，首先调用init方法(相当于外函数)
+# 我们可以将test()注释掉，执行到@Test时，init方法会自动调用
+
+# 同时将test函数指向创建的Test对象，指向了__call__方法(相当于内函数)
+# 那么在接下来执行test()的时候，
 # 其实就是直接对创建的对象进行调用，执行其call方法
+# 最后执行

@@ -42,6 +42,11 @@ def test():
     print('this is test fun')
     return 'hello'
 
+# str = func()
+# 原始函数test()执行后的hello赋值给str
+# 最终装饰后test()执行完毕后，返回了str
+# 此时str即装饰函数执行完毕后的返回值，赋值给ret
+
 ret = test()
 print(ret)
 

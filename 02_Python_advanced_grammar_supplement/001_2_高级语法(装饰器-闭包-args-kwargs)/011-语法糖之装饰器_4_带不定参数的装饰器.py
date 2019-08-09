@@ -34,6 +34,7 @@ def func_b(a, b, c):
 
 if __name__ == '__main__':
     func_a(1, 2)
+    print('*' * 50)
     func_b(1, 2, 3)
 
 

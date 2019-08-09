@@ -27,6 +27,12 @@ print(res.group())
 print('*' * 50)
 
 # [^Aa]匹配出A和a以外的任何字符,下面找出除Aa以外的所有字符
+# 使用的findall就会找出所有匹配的分组
 res = re.findall(r'[^Aa]+', '速度与激情3A5速度a8')
 print(res)
+print('*' * 20)
+
+# match只会匹配到第一个就结束，从头开始，到A的时候就结束了
+res = re.match(r'[^Aa]+', '速度与激情3A5速度a8')
+print(res.group())
 print('*' * 20)

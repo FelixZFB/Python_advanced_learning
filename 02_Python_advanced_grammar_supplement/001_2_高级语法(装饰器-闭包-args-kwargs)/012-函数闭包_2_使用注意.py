@@ -10,6 +10,8 @@ def outer():
     inner()
     print(m)
 outer()
+print('*' * 50)
+
 # 运行结果发现，最后一个m还是0
 # 闭包函数不会修改外部作用域局部变量的值
 
@@ -21,11 +23,13 @@ def outer():
         return m
     return inner
 res = outer()
+# print(res())
 print(res.__name__)
+print('*' * 50)
 # print(res())
 # 本来是想运行之后，m变成2，但是运行并没有返回2
 # 上部代码右边的m已经标红，鼠标方上去，提示未找到参考即未找到变量引用
-# 执行res_1()时会出现错误，执行闭包函数时，python会导入全部的闭包函数体inner()
+# 执行res()时会出现错误，执行闭包函数时，python会导入全部的闭包函数体inner()
 # 来分析其的局部变量，python规则指定所有在赋值语句左面的变量都是局部变量，
 # 则在闭包inner()中，变量m在赋值符号"="的左面，被python认为是inner()内部函数中的局部变量。
 # 再接下来执行print(res())时，程序运行至m = m + 1时，因为先前已经把m归为inner()内部中的局部变量，

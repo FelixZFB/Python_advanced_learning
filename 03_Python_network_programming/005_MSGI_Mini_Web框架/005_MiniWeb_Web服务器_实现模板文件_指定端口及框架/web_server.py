@@ -31,6 +31,7 @@ class WSGIServer(object):
         # print(">>>"*50)
         # print(request)
 
+        # 将请求报文以行分隔为列表
         request_lines = request.splitlines()
         print("")
         print(">"*20)
@@ -39,6 +40,10 @@ class WSGIServer(object):
         # GET /index.html HTTP/1.1
         # get post put del
         file_name = ""
+
+        # 请求头的第一行request_line：GET /index.html HTTP/1.1
+        # 匹配结果：GET /index.html 我们提取出/及以后的内容
+        # [^/]+表示匹配除了/以为的任何字符多次，/[^ ]*表示从/开始匹配任何字符，+匹配1次或多次，*匹配0次或多次
         ret = re.match(r"[^/]+(/[^ ]*)", request_lines[0])
         if ret:
             file_name = ret.group(1)

@@ -447,6 +447,8 @@
     如此，就将服务器和框架完全分离了
     以后具体处理的框架都单独放在文件夹中，然后将框架路径添加到配置文件中
     后期修改，就只需要修改配置文件和框架里面的文件了，服务器文件不用修改了
+    CMD窗口中运行python脚本(虚拟环境下运行py文件)
+    参考：https://blog.csdn.net/u011318077/article/details/98733967
     CMD虚拟环境下指定端口运行代码：
     python web_server.py 7788 mini_frame:application
     浏览器打开：http://127.0.0.1:7788/center.py

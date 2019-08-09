@@ -10,13 +10,16 @@
 
 # *和**代表多个的意思，多个参数
 
-
 # 传入位置参数和关键字参数
+# 一个关键字直接使用等号，多个关键字参数加使用字典，前面加**
 def may_function(*args, **kwargs):
     print(args)
     print(kwargs)
     pass
+may_function(1, 2, 3, a=3)
+print('*' * 50)
 may_function(1, 2, 3, **{'a': 3, 'b': 4, 'c': 5})
+print('*' * 50)
 
 # 先将args包裹起来，作为包裹位置参数传入给函数，然后打印出来,即解包裹位置参数
 def print_hello(name, sex):
@@ -24,6 +27,7 @@ def print_hello(name, sex):
 
 args = ('Felix', '男')
 print_hello(*args)
+print('*' * 50)
 
 # 先将kwargs包裹起来，作为包裹关键字参数传入给函数，然后打印出来，即解包裹关键字参数
 def print_hello_1(**kwargs):
@@ -31,4 +35,6 @@ def print_hello_1(**kwargs):
 
 kwargs = {'name': 'Felix', 'sex': u'男'}
 print_hello_1(**kwargs)
+
+
 

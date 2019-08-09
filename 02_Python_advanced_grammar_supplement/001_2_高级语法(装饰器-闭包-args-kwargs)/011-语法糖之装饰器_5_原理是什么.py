@@ -21,9 +21,9 @@ func_a()
 # 5. 而是，deco函数返回值是内部函数wrapper，该处返回的是已经加了装饰的func_a函数了
 # 6. 原始函数func_a函数的地址已经指向了deco.wrapper的函数地址
 
-# 装饰后的func_a = deco(原始函数func_a)
+# 装饰后的func_a = deco(原始函数的func_a)
 # 7. 因此，主代码执行@deco后，再执行func_a()(该func_a已经被装饰了),就会指向deco.wrapper的函数地址
-# 8. 实际代码输出结果就是：执行deco.wrapper函数，先打印出开始权限认证，然后执行func(),
+# 8. 主代码执行func_a()，实际代码输出结果就是：执行deco.wrapper函数，先打印出开始权限认证，然后执行func(),
 # 9. 也就是被当成参数传进来的原始函数func_a，打印出权限验证通过
 
 # 经过上述步骤，func_a就被装饰了

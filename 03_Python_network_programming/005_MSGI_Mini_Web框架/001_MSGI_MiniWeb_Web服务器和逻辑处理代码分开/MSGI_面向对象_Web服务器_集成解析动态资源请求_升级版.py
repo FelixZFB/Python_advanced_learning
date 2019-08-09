@@ -46,6 +46,7 @@ class WSGIServer():
         # 匹配出出空格外的任何内容，即从第一个/开始匹配到空格结束
         # 请求头的第一行request_line：GET /index.html HTTP/1.1
         # 匹配结果：GET /index.html 我们提取出/及以后的内容
+        # [^/]+表示匹配除了/以为的任何字符多次，/[^ ]*表示从/开始匹配任何字符，+匹配1次或多次，*匹配0次或多次
         file_name = re.match("[^/]+(/[^ ]*)", request_line).group(1)
         # 加入网页所在的系统路径，网页都是放在html文件夹中，此时html是放在上级目录，上上级使用../../html
         html_file_name = "../html" + file_name

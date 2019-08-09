@@ -15,7 +15,7 @@ def deco_1(func):
     def wrapper(*args, **kwargs):
         print("第一个装饰器包裹函数(内函数)运行开始")
         func(*args, **kwargs)
-        print("第一个装饰器运行结束")
+        print("第一个装饰器内函数运行结束")
 
     # 装饰函数的返回值是内部函数的执行结果
     return wrapper
@@ -28,7 +28,7 @@ def deco_2(func):
     def wrapper(*args, **kwargs):
         print("第二个装饰器包裹函数(内函数)运行开始")
         func(*args, **kwargs)
-        print("第二个装饰器运行结束")
+        print("第二个装饰器内函数运行结束")
 
     # 装饰函数的返回值是内部函数的执行结果
     return wrapper
@@ -38,7 +38,7 @@ def deco_3(func):
     def wrapper(*args, **kwargs):
         print("第三个装饰器包裹函数(内函数)运行开始")
         func(*args, **kwargs)
-        print("第三个装饰器运行结束")
+        print("第三个装饰器内函数运行结束")
 
     # 装饰函数的返回值是内部函数的执行结果
     return wrapper
@@ -56,4 +56,10 @@ def func_a(a, b):
 
 
 if __name__ == '__main__':
-    func_a(1, 2)
+    ret = func_a(1, 2)
+
+# deco_3内函数执行到 func(*args, **kwargs)，找上一级地址去执行，此时print("第三个装饰器内函数运行结束")需要等待
+# deco_2内函数执行，找到deco_1，deco_1里面的func指向原始的func_a，func_a执行完毕后，
+# 才会执行print("第一个装饰器内函数运行结束")
+# 此时，deco_2的func指向的函数才执行完毕，然后执行print("第二个装饰器内函数运行结束")
+# 然后deco_3的print("第三个装饰器内函数运行结束")执行，最后，代码执行完毕
