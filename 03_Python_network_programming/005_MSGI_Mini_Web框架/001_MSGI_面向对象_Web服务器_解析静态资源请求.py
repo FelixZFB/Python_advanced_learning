@@ -33,6 +33,9 @@ class WSGIServer():
         request_data = new_socket.recv(1024).decode("utf-8")
         # 将请求报文以行分隔为列表
         request_header_lines = request_data.splitlines()
+        # 收到的request_data分隔后的格式如下
+        # ['GET /index.html HTTP/1.1', 'Host: 127.0.0.1:7788', 'User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0', 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8', 'Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2', 'Accept-Encoding: gzip, deflate', 'Referer: http://127.0.0.1:7788/classes.html', 'Connection: keep-alive', 'Upgrade-Insecure-Requests: 1', '']
+        print(request_header_lines)
         # 格式化打印出请求报文信息，换行打出
         for line in request_header_lines:
             print(line)
