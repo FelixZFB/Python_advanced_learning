@@ -21,16 +21,17 @@ def application(environ, start_response):
 
 # 3. 然后，application函数开始执行start_response('200 OK', [('Content-Type', 'text/html')])
 # 此时的start_response就是执行服务器中的set_response_header函数
-# '200 OK'作为第一个参数status
-# [('Content-Type', 'text/html')]作为第二个参数headers
-# 这两个参数设置为类属性，用于之后的调用
-# application函数最后返回一个值'WSGI API Hello world'，赋值给response_body
+# '200 OK'作为服务器中的set_response_header函数的第一个参数status
+# [('Content-Type', 'text/html')]作为服务器中的set_response_header函数第二个参数headers
+# 这两个参数设置为类属性，才能用于之后的调用
 
-# 4. 3执行完毕后，response_body已经有值了，接下来的代码是完成response_header
+# application整个函数最后返回的值'WSGI API Hello world'，赋值给response_body
+
+# 4. 3执行完毕后，response_body已经有值了，接下来服务器中的的代码是完成response_header
 # response_header先得到第一行状态信息，然后再加一行Content-Type信息
 # 然后空一行，之后拼接上body的信息
 
-# 5. 发送响应报文
+# 5. 最后服务器中发送响应报文
 
 # 运行结果请查看图片：支持WSGI后的运行结果
 

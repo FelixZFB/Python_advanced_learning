@@ -95,8 +95,10 @@ class WSGIServer():
 
             response_header = 'HTTP/1.1 %s\r\n' % self.status
             # 提取出self.headers里面的信息，添加到response_header中去
+            # headers是一个列表，每个元素又是一个元组，取出列表的第一个元素和第二个元素，加上冒号，就变成了了html的格式了
             for temp in self.headers:
                 response_header += '%s:%s\r\n' %(temp[0], temp[1])
+            # header和body之间加上空行
             response_header += "\r\n"
             # 浏览器默认解析使用的是gbk，gbk可以显示更多的汉字，此处直接使用utf-8会乱码
             # Content-Type里面指定charset编码是utf-8就可以完美显示中文了
@@ -109,6 +111,7 @@ class WSGIServer():
 
     # 定义一个函数，专门用于返回动态请求的headers信息
     def set_response_header(self, status, headers):
+        # status和headers来自服务器框架
         self.status = status
         # 手动加一个Web服务器的版本信息
         self.headers = [('Server', 'mini_web v8.0')]
