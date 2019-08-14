@@ -477,6 +477,10 @@
             mysql> source D:/stock_db.sql
     007项目升级，支持查询MySQL数据，然后将其返回
     专门定义一个my_sql()函数，用于连接数据库，查询数据，然后返回数据作为body
+    先启动数据库然后使用stock_db数据库：
+    CMD窗口执行：mysql -u root -p  密码：00xxx56
+                show databases;
+                use stock_db;
     CMD虚拟环境下指定端口运行代码：
     python web_server.py 7788 mini_frame:application
     浏览器打开：http://127.0.0.1:7788/my_sql.py 
@@ -488,7 +492,10 @@
     上面代码全部使用指定的前端模板文件替换，还未使用mysql中数据
     我们运行查看效果
     010中我们将前端模板中的固定数据替换为我们查询出来的数据
-    
+    先启动数据库然后使用stock_db数据库：
+    CMD窗口执行：mysql -u root -p  密码：00xxx56
+                show databases;
+                use stock_db;
     CMD虚拟环境下指定端口运行代码：
     python web_server.py 7788 mini_frame:application
     浏览器打开：http://127.0.0.1:7788/index.py
@@ -498,10 +505,17 @@
     index.py处理去寻找static中的index.html模板文件
     原始模板文件里面有个{%content%}，我们将其进行替换
     上面替换，使用%s字符串替换，元组切片取出数据
-    
+    先启动数据库然后使用stock_db数据库：
+    CMD窗口执行：mysql -u root -p  密码：00xxx56
+                show databases;
+                use stock_db;
     CMD虚拟环境下指定端口运行代码：
     python web_server.py 7788 mini_frame:application
     浏览器打开：http://127.0.0.1:7788/index.py
+    
+    此时股票信息栏就显示出来数据库查出的股票信息了
+    此时个人中心数据还是空白，我们011进行个人中心数据显示
+    
 
 # 4 伪静态、静态和动态的区别
 

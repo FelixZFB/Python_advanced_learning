@@ -5,7 +5,10 @@
     上面代码全部使用指定的前端模板文件替换，还未使用mysql中数据
     我们运行查看效果
     010中我们将前端模板中的固定数据替换为我们查询出来的数据
-    
+    先启动数据库然后使用stock_db数据库：
+    CMD窗口执行：mysql -u root -p  密码：00xxx56
+                show databases;
+                use stock_db;
     CMD虚拟环境下指定端口运行代码：
     python web_server.py 7788 mini_frame:application
     浏览器打开：http://127.0.0.1:7788/index.py

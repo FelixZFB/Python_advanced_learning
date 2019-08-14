@@ -58,17 +58,17 @@ def index():
     # |  3 | 000039 | 中集集团 | 1.35%   | 1.78%    | 18.07 | 18.06 | 2017-06-28 |
     tr_template = '''
     <tr>
-    <td>%s</td>
-    <td>%s</td>
-    <td>%s</td>
-    <td>%s</td>
-    <td>%s</td>
-    <td>%s</td>
-    <td>%s</td> 
-    <td>%s</td> 
-    <td>
-    <input type="button" value="添加" id="toAdd" name="toAdd" systemidvalue="000007">
-    </td>
+        <td>%s</td>
+        <td>%s</td>
+        <td>%s</td>
+        <td>%s</td>
+        <td>%s</td>
+        <td>%s</td>
+        <td>%s</td> 
+        <td>%s</td> 
+        <td>
+            <input type="button" value="添加" id="toAdd" name="toAdd" systemidvalue="000007">
+        </td>
     </tr>
     '''
 
@@ -99,7 +99,8 @@ def center():
     content = re.sub(r"\{%content%\}", my_stock_infos, content)
     return content
 
-# 定义一个函数，处理连接MySQL获取数据
+
+# 定义一个函数，用于处理连接MySQL获取数据并返回数据
 @route("/my_sql.py")
 def my_sql():
     # 创建Connection连接
