@@ -55,7 +55,7 @@ class WSGIServer(object):
         # 2. 返回http格式的数据，给浏览器
         # 2.1 如果请求的资源不是以.py结尾，那么就认为是静态资源（html/css/js/png，jpg等）
         # 则直接去静态文件夹读取资源
-        if not file_name.endswith(".py"):
+        if not file_name.endswith(".html"):
             try:
                 f = open(self.static_path + file_name, "rb")
             except:
