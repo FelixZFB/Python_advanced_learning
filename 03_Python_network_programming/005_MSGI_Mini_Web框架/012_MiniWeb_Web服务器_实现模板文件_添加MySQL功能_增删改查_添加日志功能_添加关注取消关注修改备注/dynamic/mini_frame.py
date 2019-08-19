@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 
 import re
+import logging
 from pymysql import connect
 
 # 定义一个字典，用于存储url（即被请求的file_name ）和对应要被调用的函数
@@ -292,7 +293,7 @@ def add_focus(ret):
 
 # 取消关注股票的函数
 @route(r"/del/(\d+)\.html")
-def add_focus(ret):
+def del_focus(ret):
     # 1. 获取股票代码
     # 取出ret中的第一个分组，即股票代码
     stock_code = ret.group(1)
@@ -353,6 +354,20 @@ def application(env, start_response):
     else:
         return 'Hello World! 我爱你中国....'
     '''
+
+    # 此处添加日志记录功能，有浏览器访问，就进行记录访问信息
+    # 打印日志的时间---打印当前执行程序名[ 打印日志的当前行号]---打印日志级别名称---打印日志信息
+    LOG_FORMAT = "%(asctime)s---%(filename)s[line:%(lineno)d]---%(levelname)s: %(message)s"
+    LOG_FH = [logging.FileHandler(filename='./log_information.log', mode='a', encoding='utf-8')]
+    logging.basicConfig(
+        # filename='logging_record_information_1.log',
+        level=logging.INFO,
+        format=LOG_FORMAT,
+        handlers=LOG_FH
+    )
+    logging.info("浏览器访问的网址名：%s" % file_name)
+
+
     # 可能存在动态请求的xxx.py不存在，因此加入try语句
     try:
         # func = URL_FUNC_DICT[file_name]
@@ -373,7 +388,9 @@ def application(env, start_response):
                 return func(ret)
         # 请求的函数可能没有，就执行下面的语句
         else:
-            response = "请求的URL(%s)没有对应的函数..."
+            # 记录没有对应函数的日志记录
+            logging.warning("请求的URL(%s)没有对应的函数...") % file_name
+            response = "请求的URL(%s)没有对应的函数..." % file_name
             return response
 
     # 其它错误都按以下处理，返回错误的原因
@@ -388,6 +405,7 @@ def application(env, start_response):
 # 原始模板HTML源码中有center.py和index.py，我们将其修改为.html
 # 上面装饰器参数也都修改为.html，虽然还是动态请求，但是我们将其后缀改为html，就变成了伪静态了
 
+
 # 012增加添加关注股票的功能函数
 # 由于index.py股票信息还没有源代码添加还没进行JS接口
 # 我们进行手动测试，添加关注股票
@@ -396,13 +414,13 @@ def application(env, start_response):
 # http://127.0.0.1:7788/add/000055.html,结果：没有这只股票
 # 再次刷新：http://127.0.0.1:7788/add/000822.html，结果：已经关注过该股票，请勿重复关注
 
+
 # 013增加删除关注股票的功能函数，和关注股票基本一致
 # 运行：http://127.0.0.1:7788/del/300268.html，取消关注股票300268成功
 # 再次刷新：http://127.0.0.1:7788/del/300268.html，没有关注该股票，不用取消关注
 
 
-
-# 如果要在页面直接点击，添加或者删除，需要修改源码
+# 如果要在页面直接点击，添加或者删除，需要修改templates文件夹中index和center源码
 
 # 先启动数据库然后使用stock_db数据库：
 # CMD窗口执行：mysql -u root -p  密码：00xxx56
@@ -411,4 +429,10 @@ def application(env, start_response):
 # CMD虚拟环境下指定端口运行代码：
 # python web_server.py 7788 mini_frame:application
 # 浏览器打开：http://127.0.0.1:7788/index.py
+
+
+# 浏览器访问一个网页的流程：
+# 浏览器请求服务器（http协议）--->服务器连接框架（WSGI协议）
+# --->框架连接数据库（MySQL）--->数据库返回数据--->
+# 框架调用模板并整合数据--->返回给服务器--->返回给浏览器
 

@@ -1,0 +1,9 @@
+2019-08-19 16:43:50,017------WARNING------This is a warning log: 日志内容.
+2019-08-19 16:43:50,017------ERROR------This is a error log: 日志内容.
+2019-08-19 16:43:50,017------CRITICAL------This is a critical log: 日志内容.
+2019-08-19 16:44:18,312 - 002_P07_logging_record_infomation_1_基本使用.py[line:26] - WARNING: This is a warning log: 日志内容.
+2019-08-19 16:44:18,312 - 002_P07_logging_record_infomation_1_基本使用.py[line:27] - ERROR: This is a error log: 日志内容.
+2019-08-19 16:44:18,312 - 002_P07_logging_record_infomation_1_基本使用.py[line:28] - CRITICAL: This is a critical log: 日志内容.
+2019-08-19 16:44:56,219---002_P07_logging_record_infomation_1_基本使用.py[line:26]---WARNING: This is a warning log: 日志内容.
+2019-08-19 16:44:56,220---002_P07_logging_record_infomation_1_基本使用.py[line:27]---ERROR: This is a error log: 日志内容.
+2019-08-19 16:44:56,220---002_P07_logging_record_infomation_1_基本使用.py[line:28]---CRITICAL: This is a critical log: 日志内容.
