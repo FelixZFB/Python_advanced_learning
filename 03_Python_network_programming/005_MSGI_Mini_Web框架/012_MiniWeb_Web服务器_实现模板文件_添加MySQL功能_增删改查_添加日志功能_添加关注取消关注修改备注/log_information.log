@@ -1,0 +1,6 @@
+2019-08-20 10:09:55,679---mini_frame.py[line:368]---INFO: 浏览器访问的网址名：/index.html
+2019-08-20 10:10:45,748---mini_frame.py[line:368]---INFO: 浏览器访问的网址名：/center.html
+2019-08-20 10:11:09,647---mini_frame.py[line:368]---INFO: 浏览器访问的网址名：/center111.html
+2019-08-20 10:11:09,649---mini_frame.py[line:392]---WARNING: 请求的URL(%s)没有对应的函数...
+2019-08-20 10:11:24,499---mini_frame.py[line:368]---INFO: 浏览器访问的网址名：/cent88.html
+2019-08-20 10:11:24,500---mini_frame.py[line:392]---WARNING: 请求的URL(%s)没有对应的函数...

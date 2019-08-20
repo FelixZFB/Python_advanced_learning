@@ -160,3 +160,11 @@ logging.basicConfig(**kwargs)	对root logger进行一次性配置
 - 在工作中给的常用格式如下:
 - format='%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(message)s'
 - 这个格式可以输出日志的打印时间，是哪个模块输出的，输出的日志级别是什么，以及输入的日志内容。
+
+
+5. log日志嵌入程序
+- 一条日志记录就相当于打印一条消息，只不过是记录在文件之中
+- 直接在要记录日志的地方插入message代码，比如logging.info("浏览器访问的网址名：%s" % file_name)
+- 打印日志的时间---打印当前执行程序名[ 打印日志的当前行号]---打印日志级别名称---打印日志信息
+- 日志的当前行号，就是代码中插入logging.info所在的位置
+- 005_MiniWeb中加入日志记录功能_参考03中005中的012项目mini_frame.py文件

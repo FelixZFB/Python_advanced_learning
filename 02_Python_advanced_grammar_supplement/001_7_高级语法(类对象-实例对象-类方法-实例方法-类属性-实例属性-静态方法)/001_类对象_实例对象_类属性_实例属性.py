@@ -21,7 +21,7 @@
 class Province(object):
     # 类属性，所有实例省份都属于中国，共有的属性
     country = '中国'
-    # 初始化属性，用来接收实例中的参数
+    # 初始化属性，用来接收实例中传来的参数
     def __init__(self, name):
         # 实例属性，实例特有，每个实例的name不相同
         self.name = name
@@ -39,6 +39,7 @@ print(obj2.name)
 
 # 通过类直接访问类属性
 print(Province.country)
+
 # 通过实例对象访问类属性，两种访问方式
 print(obj1.country)
 print(obj1.__class__.country)

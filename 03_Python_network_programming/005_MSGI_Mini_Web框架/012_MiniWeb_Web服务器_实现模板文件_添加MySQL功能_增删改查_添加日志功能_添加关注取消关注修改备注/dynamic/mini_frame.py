@@ -420,6 +420,10 @@ def application(env, start_response):
 # 再次刷新：http://127.0.0.1:7788/del/300268.html，没有关注该股票，不用取消关注
 
 
+# 添加日志记录功能，记录访问的网址和警告信息
+# 先设置日志的配置信息，然后在要记录的地方插入logging.info, logging.warning。。。
+
+
 # 如果要在页面直接点击，添加或者删除，需要修改templates文件夹中index和center源码
 
 # 先启动数据库然后使用stock_db数据库：
@@ -428,7 +432,9 @@ def application(env, start_response):
 # use stock_db;
 # CMD虚拟环境下指定端口运行代码：
 # python web_server.py 7788 mini_frame:application
-# 浏览器打开：http://127.0.0.1:7788/index.py
+# 浏览器打开：http://127.0.0.1:7788/index.html
+# 然后查看个人中心，然后输入一个错误网址：http://127.0.0.1:7788/index111.html
+# 查看日志记录，就可以看到访问记录，和出现错误的位置
 
 
 # 浏览器访问一个网页的流程：
