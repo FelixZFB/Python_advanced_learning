@@ -13,7 +13,7 @@ print('*' * 50)
 print(glo['__builtins__'])
 print('*' * 50)
 
-# __dict__可以查看模块或类的所有内置函数
+# __dict__可以查看模块或类的所有内置函数和属性，查看类实例对象的所有属性
 # 取出所有内置模块的函数
 bul = glo['__builtins__'].__dict__
 print(bul)

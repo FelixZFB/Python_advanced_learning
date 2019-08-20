@@ -14,13 +14,14 @@ class Person(object):
 
 a = Person('Felix', 18)
 
-# 查看类的所有属性(所有方法),也可以查看模块的所有属性方法
-print(Person.__dict__)
+# 查看类所有属性(所有方法),也可以查看模块的所有属性方法，查看类实例对象的所有属性
+print(Person.__dict__) # 查看类的属性和方法
 print('*' * 50)
 
 print("当前操作的模块：" + a.__module__) # __module__表示当前的操作在那个模块
 print('*' * 50)
 print(a.__class__)  # __class__表示当前操作的是那个类
 print('*' * 50)
-print(a.__doc__) # 查看类的描述信息,类定义时候进行了描述
+print(a.__doc__) # 查看类实例对象的描述信息,类定义时候进行了描述
 print('*' * 50)
+print(a.__dict__) # 查看类实例对象的属性
