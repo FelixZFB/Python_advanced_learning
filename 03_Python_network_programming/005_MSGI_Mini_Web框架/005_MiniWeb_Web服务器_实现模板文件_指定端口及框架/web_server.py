@@ -139,22 +139,29 @@ def main():
         print('python xxx.py 7788 mini_frame:application')
         return # return没有返回值，执行到此结束函数
 
-    # mini_frame:application
+    # mini_frame:application ^:匹配除:以外的任何字符，及:前面的内容
     ret = re.match(r"([^:]+):(.*)", frame_app_name)
     if ret:
-        frame_name = ret.group(1) # mini_frame
-        app_name = ret.group(2) # application
+        frame_name = ret.group(1) # 第一个分组：mini_frame
+        app_name = ret.group(2) # 第二个分组：application
     else:
         print('请按照以下格式运行代码')
         print('python xxx.py 7788 mini_frame:application')
         return  # return没有返回值，执行到此结束函数
 
-    # 将dynamic模块文件夹加入到系统路径中，下面的__import__就可以到文件夹中去查找了
+    # 将dynamic模块文件夹加入到系统路径中，下面的__import__就可以到该文件夹中去查找了
     sys.path.append('./dynamic')
-    # 变量名作为模块导入，使用__import__
-    frame = __import__(frame_name) # 返回值标记导入的这个模块
+    # 代码中的变量名作为模块导入，要使用__import__
+    frame = __import__(frame_name) # 变量名作为模块导入，返回值标记导入的这个模块mini_frame.py
     app = getattr(frame, app_name) # 返回值app此时就指向了dynamic文件夹中mini_frame模块的application函数
     # print(frame, app) # <module 'mini_frame' from './dynamic\\mini_frame.py'> <function application at 0x0000026B29E4FF28>
+
+    # CMD中输入了端口号和框架名，通过添加框架所在的文件夹dynamic，
+    # 然后使用变量名导入该模块mini_frame.py，然后返回模块中的application函数为app
+    # 如果在程序中间直接使用from xxx import xxx就会出现错误
+
+    # 要导入模块的文件夹为系统路径--->使用变量名(变量名指向的模块)导入--->返回值重命名，使用getattr
+    # --->获取模块中的函数
 
     wsgi_server = WSGIServer(port, app)
     wsgi_server.run_forever()

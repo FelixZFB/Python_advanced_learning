@@ -1,11 +1,13 @@
 import socket
 import re
 import multiprocessing
+import time
 import sys
+import dynamic.mini_frame
 
 
 class WSGIServer(object):
-    def __init__(self, port, app, static_path):
+    def __init__(self, port, app):
         # 1. 创建套接字
         self.tcp_server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.tcp_server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -16,11 +18,8 @@ class WSGIServer(object):
         # 3. 变为监听套接字
         self.tcp_server_socket.listen(128)
 
-        # 使用外部参数app（application）
+        # 使用外部参数app
         self.application = app
-
-        # 静态请求文件夹加入类属性，用于之后静态请求的调用
-        self.static_path = static_path
 
     def service_client(self, new_socket):
         """为这个客户端返回数据"""
@@ -33,7 +32,6 @@ class WSGIServer(object):
         # print(request)
 
         # 将请求报文以行分隔为列表
-        # CMD窗口中打印出请求报文
         request_lines = request.splitlines()
         print("")
         print(">"*20)
@@ -42,6 +40,7 @@ class WSGIServer(object):
         # GET /index.html HTTP/1.1
         # get post put del
         file_name = ""
+
         # 请求头的第一行request_line：GET /index.html HTTP/1.1
         # 匹配结果：GET /index.html 我们提取出/及以后的内容
         # [^/]+表示匹配除了/以为的任何字符多次，/[^ ]*表示从/开始匹配任何字符，+匹配1次或多次，*匹配0次或多次
@@ -54,10 +53,9 @@ class WSGIServer(object):
 
         # 2. 返回http格式的数据，给浏览器
         # 2.1 如果请求的资源不是以.py结尾，那么就认为是静态资源（html/css/js/png，jpg等）
-        # 则直接去静态文件夹读取资源
-        if not file_name.endswith(".html"):
+        if not file_name.endswith(".py"):
             try:
-                f = open(self.static_path + file_name, "rb")
+                f = open("./static" + file_name, "rb")
             except:
                 response = "HTTP/1.1 404 NOT FOUND\r\n"
                 response += "\r\n"
@@ -79,7 +77,7 @@ class WSGIServer(object):
         else:
             # 2.2 如果是以.py结尾，那么就认为是动态资源的请求
 
-            env = dict()  # 这个字典中存放的是web服务器要传递给web框架的数据信息
+            env = dict()  # 这个字典中存放的是web服务器要传递给 web框架的数据信息
             env['PATH_INFO'] = file_name
             # {"PATH_INFO": "/index.py"}
             # 直接使用外面传入的模块参数self.application = app
@@ -119,9 +117,9 @@ class WSGIServer(object):
 
             new_socket.close()
 
-        # 由于上面while循环没有break语句，会一直死循环，此处关闭服务器语句就会显示语法有问题
+
         # 关闭监听套接字
-        # self.tcp_server_socket.close()
+        self.tcp_server_socket.close()
 
 
 def main():
@@ -141,52 +139,41 @@ def main():
         print('python xxx.py 7788 mini_frame:application')
         return # return没有返回值，执行到此结束函数
 
-    # mini_frame:application
+    # mini_frame:application ^:匹配除:以外的任何字符，及:前面的内容
     ret = re.match(r"([^:]+):(.*)", frame_app_name)
     if ret:
-        frame_name = ret.group(1) # mini_frame
-        app_name = ret.group(2) # application
+        frame_name = ret.group(1) # 第一个分组：mini_frame
+        app_name = ret.group(2) # 第二个分组：application
     else:
-        print('请在CMD窗口中按照以下格式运行代码')
+        print('请按照以下格式运行代码')
         print('python xxx.py 7788 mini_frame:application')
         return  # return没有返回值，执行到此结束函数
 
-    # 因为只是一个文件，不是文件夹，./可以省略
-    with open('./web_server.conf') as f:
-        # eval() 函数用来执行一个字符串表达式，并返回表达式的值
-        # f.read()读取结果是str，eval返回字符串的值
-        # 字符串的值读取时是普通字符串，但在py中就是字典格式了，就将其转为字典了
-        conf_info = eval(f.read())
-        # {
-        #     "static_path":"./static",
-        #     "dynamic_path":"./dynamic"
-        # }
 
+    # 代码中间导入模块并重命名:
 
     # 将dynamic模块文件夹加入到系统路径中，下面的__import__就可以到该文件夹中去查找了
-    sys.path.append(conf_info['dynamic_path'])
-    # 代码中的变量名作为模块导入，使用__import__
-    frame = __import__(frame_name) # 返回值标记导入的这个模块，frame_name就是上面CMD中指定的模块名称，返回值标记导入的这个模块mini_frame.py
+    sys.path.append('./dynamic')
+    # 代码中的变量名作为模块导入，要使用__import__
+    frame = __import__(frame_name) # 变量名作为模块导入，返回值标记导入的这个模块mini_frame.py
     app = getattr(frame, app_name) # 返回值app此时就指向了dynamic文件夹中mini_frame模块的application函数
     # print(frame, app) # <module 'mini_frame' from './dynamic\\mini_frame.py'> <function application at 0x0000026B29E4FF28>
 
-    # 上面步骤完成了以下过程：
-    # CMD中输入了端口号和框架名，通过添加框架所在的文件夹dynamic，
+    # CMD中输入了端口号和框架名，通过添加框架所在的文件夹dynamic到系统路径，导入时候才可以查找到
     # 然后使用变量名导入该模块mini_frame.py，然后返回模块中的application函数为app
-    # 如果在程序中间直接使用from xxx import xxx就会出现错误，修改会麻烦
+    # 如果在程序中间直接使用from xxx import xxx就会出现错误
 
     # 要导入模块的文件夹为系统路径--->使用变量名(变量名指向的模块)导入--->返回值重命名，使用getattr
     # --->获取模块中的函数
 
-    # 将静态文件夹路径传递给WSGIServer，顶部加入到类属性中，用于调用
-    wsgi_server = WSGIServer(port, app, conf_info['static_path'])
+    wsgi_server = WSGIServer(port, app)
     wsgi_server.run_forever()
 
 
 if __name__ == "__main__":
     main()
 
-# CMD窗口激活虚拟环境，然后切换到web_server.py所在的目录
+# CMD窗口激活项目所在的虚拟环境，然后切换到web_server.py所在的目录
 # 然后使用python web_server.py 7788 mini_frame:application指定端口和框架运行
 # 然后网页打开http://127.0.0.1:7788/index.py
 
