@@ -13,6 +13,6 @@ result = html.xpath('//*')
 print(type(result))
 print(result)
 
-# 获取
+# 获取h2标签
 result1 = html.xpath('//h2')
 print(result1)

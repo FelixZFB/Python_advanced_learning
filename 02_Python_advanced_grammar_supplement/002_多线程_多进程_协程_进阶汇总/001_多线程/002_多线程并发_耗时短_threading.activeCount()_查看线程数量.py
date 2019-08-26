@@ -4,7 +4,7 @@ import time
 
 def saySorry():
     print("亲爱的，我错了，我能吃饭了吗？")
-    time.sleep(5)
+    time.sleep(3)
 
 # if开始是主线程
 # t.start()开始的就是子线程

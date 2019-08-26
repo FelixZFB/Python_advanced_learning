@@ -18,8 +18,11 @@ print(type(content))
 # print(content)
 
 # 浏览属性
+# 查看title标签所有内容
 print(soup.title)
+# 查看title标签的名称
 print(soup.title.name)
+# 查看标签内部的文字内容
 print(soup.title.string)
 
 # print(soup.find_all('a'))
