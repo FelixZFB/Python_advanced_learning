@@ -1,7 +1,5 @@
-# chardet
-# 自动检测URL编码
 
-import chardet
+
 from urllib import request
 
 if __name__ == '__main__':
@@ -13,3 +11,4 @@ if __name__ == '__main__':
     print("URL: {0}".format(rsp.geturl()))
     print("Info: {0}".format(rsp.info()))
     print("Code: {0}".format(rsp.getcode()))
+

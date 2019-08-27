@@ -28,7 +28,7 @@ baseurl = 'https://fanyi.baidu.com/sug'
 wd = input('Input your keyword: ')
 data = {'kw': wd}
 
-# 需要对data进行编码
+# 需要对data进行编码，urlencode(data)对字典编码之后是一个字符串str,还需要编码为字节
 data = parse.urlencode(data).encode('utf-8')
 
 # 我们需要构造一个请求头，请求头至少包含数据的长度

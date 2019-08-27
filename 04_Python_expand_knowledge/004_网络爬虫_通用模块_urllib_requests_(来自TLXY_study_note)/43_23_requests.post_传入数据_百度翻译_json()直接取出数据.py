@@ -26,6 +26,8 @@ rsp = requests.post(baseurl, data=data)
 
 # 直接取出json数据就是一个python格式的字典了
 json_data = rsp.json()
+print(json_data)
+print("*" * 50)
 
 
 # 查看结果是一个字典，取出字典中键data对应的值是一个列表，

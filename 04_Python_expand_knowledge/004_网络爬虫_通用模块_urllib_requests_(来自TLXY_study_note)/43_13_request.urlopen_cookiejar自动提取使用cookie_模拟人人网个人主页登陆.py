@@ -52,7 +52,9 @@ def getHomePage():
         f.write(html)
 
 if __name__ == '__main__':
+    # 初次使用用户名密码登陆后提取得到cookie
     login()
+    # 使用获取的额cookie登陆个人主页
     getHomePage()
 
 
