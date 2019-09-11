@@ -5,6 +5,7 @@
 import time
 import threading
 
+
 # 单线程实例
 
 def loop1(in1):
@@ -15,6 +16,7 @@ def loop1(in1):
     time.sleep(2)
     print("End loop 1 at: ", time.ctime())
 
+
 def loop2(in1, in2):
     # ctime得到当前的时间
     print("Start loop 2 at: ", time.ctime())
@@ -22,6 +24,7 @@ def loop2(in1, in2):
     # 睡眠一定时间，单位是秒
     time.sleep(3)
     print("End loop 2 at: ", time.ctime())
+
 
 def main():
     print("Starting at: ", time.ctime())
@@ -38,12 +41,5 @@ def main():
     print("All done at: ", time.ctime())
 
 
-
 if __name__ == '__main__':
     main()
-
-
-
-
-
-
