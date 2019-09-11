@@ -75,8 +75,7 @@
     /bookstore/book/title | //price	选取属于 bookstore 元素的 book 元素的
     所有 title 元素，以及文档中所有的 price 元素。
 
-- 参考ch12中cnblogSpider中XPath的使用
-- 参考ch17中yunqishuyuan中XPath的使用     
+   
     
 - XPath开发工具
     - 开源的XPath表达式工具：XMLQire
@@ -110,3 +109,8 @@
     - 第二步，向下滚动，可以选择查看每一个元素
 
 - 也可以使用bs4，参考ch12中sht中bs4的使用
+
+- XPath
+- 参考ch12中cnblogSpider中XPath的使用
+- 参考ch17中yunqishuyuan中XPath的使用 
+- 参考TZKT项目中的相关使用XPath的案例
