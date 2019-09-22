@@ -28,7 +28,8 @@
     - ..	选取当前节点的父节点。
     - @	选取属性。
     - ./ 从当前节点的根节点开始选取，
-        - 比如先找到了很多DIV标签，然后遍历DIV标签，从DIV标签下面子标签
+        - 比如先找到了很多DIV标签，然后遍历DIV标签，.就代表当前的的DIV标签，从DIV标签下面子标签开始选取
+    - .// 从匹配当前节点的根节点开始选取，不管他们在文中的位置
 
 - 用法实例
     bookstore	选取 bookstore 元素的所有子节点。
@@ -44,6 +45,8 @@
 - 路径添加谓语
     / 配合元素位置使用
     // 配合元素属性使用
+    /bookstore/book 选取属于 bookstore 子元素的下一级的所有book 子元素。
+    /bookstore//book 选取属于 bookstore 子元素的下的所有book 子元素。
     /bookstore/book[1]	选取属于 bookstore 子元素的第一个 book 元素。
     /bookstore/book[last()]	选取属于 bookstore 子元素的最后一个 book 元素。
     /bookstore/book[last()-1]	选取属于 bookstore 子元素的倒数第二个 book 元素。
