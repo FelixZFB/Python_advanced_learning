@@ -3,7 +3,5 @@
 
 # 下面就是一个lambda匿名函数，传入参数，返回值就是表达式的计算结果
 func = lambda x: x * x - x
-
 res = func(3)
-
 print(res)

@@ -13,7 +13,6 @@ for i in enumerate(seasons):
 # 添加起始下标位置
 new_seasons = list(enumerate(seasons, start=100))
 print(new_seasons)
-
 # 取出索引及其值
 for index, season in new_seasons:
     print(index, season)

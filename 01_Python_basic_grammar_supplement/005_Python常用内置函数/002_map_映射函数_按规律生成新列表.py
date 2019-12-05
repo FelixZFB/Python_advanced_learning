@@ -9,8 +9,6 @@ l1 = [i for i in range(10)]
 l2 = []
 for i in l1:
     l2.append(i * 10)
-
-print(l1)
 print(l2)
 
 
