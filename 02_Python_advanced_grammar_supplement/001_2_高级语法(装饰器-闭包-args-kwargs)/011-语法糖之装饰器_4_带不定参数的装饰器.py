@@ -22,14 +22,14 @@ def deco(func):
 @deco
 def func_a(a, b):
     print("带有不定参数2个的装饰器演示：")
-    time.sleep(1)
+    time.sleep(2)
     print("传入的不定参数求和：%d" % (a + b))
 
 # 传入3个参数
 @deco
 def func_b(a, b, c):
     print("带有不定参数3个的装饰器演示：")
-    time.sleep(1)
+    time.sleep(2)
     print("传入的不定参数求和：%d" % (a + b + c))
 
 if __name__ == '__main__':

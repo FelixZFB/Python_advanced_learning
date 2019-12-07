@@ -26,7 +26,7 @@ def deco(func):
 @deco
 def func_a():
     print("hello")
-    time.sleep(1)
+    time.sleep(2)
     print("world")
 
 if __name__ == '__main__':

@@ -13,11 +13,11 @@ a = Test('Felix', 18)
 print(a.name)
 # 访问私有属性
 # print(a.__age) # 会提示无该对象，因为属性名字已经修改了
+# __dict__可以用来查看类和实例化对象的所有属性，
 # 查看a对象的所有属性,发现__age已经被修改为单下划线加类的名字，_Test__age
 print(a.__dict__)
 # 访问私有属性
 print(a._Test__age)
-#
 
 
 

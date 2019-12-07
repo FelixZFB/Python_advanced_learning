@@ -1,5 +1,4 @@
 import sys
-
 print(sys.path)
 
 # 最先搜索当前路径

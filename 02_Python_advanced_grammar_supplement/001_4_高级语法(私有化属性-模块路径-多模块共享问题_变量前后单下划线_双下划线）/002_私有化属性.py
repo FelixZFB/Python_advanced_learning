@@ -43,7 +43,7 @@ class _Bug(object):
         print("showbug")
 
 # 私有化属性模块内可以访问，
-# 但是，当from  cur_module import *时，不导入_单下划线私有属性
+# 但是，当from  cur_module import *时，不导入_单下划线属性
 # 但是，创建的类对象和子类可以访问
 
 s1 = Student('jack', 25, 'football')

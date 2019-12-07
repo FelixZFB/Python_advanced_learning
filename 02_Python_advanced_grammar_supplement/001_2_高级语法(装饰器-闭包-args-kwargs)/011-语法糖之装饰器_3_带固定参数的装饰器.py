@@ -20,7 +20,7 @@ def deco(func):
 @deco
 def func_a(a, b):
     print("带有固定参数的装饰器演示：")
-    time.sleep(1)
+    time.sleep(2)
     print("传入的参数求和：%d" % (a + b))
 
 if __name__ == '__main__':
