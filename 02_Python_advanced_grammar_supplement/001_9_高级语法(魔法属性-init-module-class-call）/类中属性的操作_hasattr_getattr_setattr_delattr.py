@@ -19,7 +19,7 @@ res2 = hasattr(functiondemo, "run") # 判断对象是否有run方法，True
 res3 = hasattr(functiondemo, "age") # 判断对象是否有age属性，False
 print(res1, res2, res3)
 
-# 删除属性
+# 删除属性，
 res4 = delattr(function_demo, 'name')
 res5 = hasattr(functiondemo, "name")
 print(res4, res5)
