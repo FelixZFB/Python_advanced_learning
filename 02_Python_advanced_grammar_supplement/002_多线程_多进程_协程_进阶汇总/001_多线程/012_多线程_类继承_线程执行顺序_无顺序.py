@@ -16,6 +16,7 @@ class MyThread(threading.Thread):
 
 
 def test():
+    # 使用for循环，创建5个子线程
     for i in range(5):
         t = MyThread()
         t.start()
