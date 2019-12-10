@@ -12,19 +12,20 @@ def test1():
 
 def main():
 
-    # 打印第一次，显示当前所有进程
+    # 打印第一次，，只有主进程
     print(threading.enumerate())
     t1 = threading.Thread(target=test1)
 
-    # 打印第二次，显示当前所有进程
+    # 打印第二次，显示当前所有进程，只有主进程
     print(threading.enumerate())
 
     t1.start()
 
-    # 打印第三次，显示当前所有进程,已经包含了子线程
+
+    # 打印第三次，显示当前所有线程,已经包含了子线程
     print(threading.enumerate())
 
-    # 添加join()，子线程执行完毕后，才执行主线程剩余的语句
+    # 添加join()，等待子线程执行完毕后，才执行主线程剩余的语句
     t1.join()
 
     print(threading.enumerate())

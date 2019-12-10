@@ -11,13 +11,13 @@ def worker(msg):
     t_stop = time.time()
     print(msg,"执行完毕，耗时%0.2f" % (t_stop-t_start))
 
-
 def main():
     po = Pool(3)  # 定义一个进程池，最大进程数3
     for i in range(0,10):
         # Pool().apply_async(要调用的目标,(传递给目标的参数元祖,))
         # 每次循环将会用空闲出来的子进程去调用目标
         # 上一个进程结束后，开始下一个新的进程
+        # 子进程会使用前面结束的进程号，进程号中国只有3个，3会使用第一个结束的进程号
         po.apply_async(worker,(i,))
 
     print("----start----")

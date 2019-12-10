@@ -3,11 +3,11 @@
 from multiprocessing import Queue
 
 #初始化一个Queue对象，最多可接收三条put消息
-q=Queue(3)
+q=Queue(3) # 消息容量3
 q.put("消息1")
 q.put("消息2")
 
-print(q.full())  #False
+print(q.full())  # 还只放2条消息，没有满False
 
 q.put("消息3")
 
