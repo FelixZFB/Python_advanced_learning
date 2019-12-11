@@ -16,15 +16,20 @@ def service_client(new_socket):
     for line in request_header_lines:
         print(line)
 
+    # 浏览器访问网址：http://127.0.0.1:7788/index.html
     # 提取出请求网页的名称，即/后面的内容
-    # 先取出请求头的第一行
+    # 先取出请求头的第一行：GET /index.html HTTP/1.1
     request_line = request_header_lines[0]
-    # 匹配出/之外的任何字符，就是从GET开始匹配，然后从后面的/之后视为一个分组
-    # 匹配出出空格外的任何内容，即从第一个/开始匹配到空格结束
-    # 请求头的第一行request_line：GET /index.html HTTP/1.1
-    # 匹配结果：GET /index.html 我们提取出/以后的内容
-    get_file_name = re.match("[^/]+(/[^ ]*)", request_line).group(0)
-    print("file name is ===>%s" % get_file_name)
+
+    # 上面提取出来的请求头的第一行是：GET /index.html HTTP/1.1
+    # 从/之外的任何字符开始匹配，匹配多次，相当于从GET开始匹配，
+    # 匹配到第一个/，后面匹配除了空格外的任何字符，相当于匹配到html结束，后面出现了空格
+    # 并且从/之后的匹配视为一个分组，分组里面匹配结果就是/index.html
+    # group(0)是取出匹配的整体结果：GET /index.html
+    # group(1)就是第一个分组：/index.html
+
+    get_file_name = re.match("[^/]+(/[^ ]*)", request_line).group(1)
+    print("请求的file name is ===>%s" % get_file_name)
     print('*' * 50)
 
     # 2. 返回http格式的数据给浏览器
@@ -84,12 +89,16 @@ if __name__ == "__main__":
 # 显示了一个html页面
 
 
-# 打印出的请求头信息
-# GET /favicon.ico HTTP/1.1
+# 按行打印出请求头信息，输出结果：
+# GET /index.html HTTP/1.1
 # Host: 127.0.0.1:7788
+# User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:70.0) Gecko/20100101 Firefox/70.0
+# Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+# Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+# Accept-Encoding: gzip, deflate
 # Connection: keep-alive
-# User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.25 Safari/537.36 Core/1.70.3719.400 QQBrowser/10.5.3715.400
-# Accept: image/webp,image/apng,image/*,*/*;q=0.8
-# Referer: http://127.0.0.1:7788/index.html
-# Accept-Encoding: gzip, deflate, br
-# Accept-Language: zh-CN,zh;q=0.9
+# Upgrade-Insecure-Requests: 1
+# Cache-Control: max-age=0
+#
+# file name is ===>GET /index.html
+# **************************************************

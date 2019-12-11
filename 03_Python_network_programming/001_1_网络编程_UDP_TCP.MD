@@ -81,7 +81,7 @@
 
 ## 2.1 IP地址查看
 - 方法1：直接打开网络，查看属性
-- 方法2：命令窗口查看，Linux使用ifconfig查看
+- 方法2：命令窗口查看，Linux使用ipconfig查看
     - windows+R打开CMD窗口
     - ipconfig查看IP地址相关信息
     - 无线局域网适配器 WLAN:

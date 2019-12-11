@@ -16,8 +16,10 @@ def main():
     # 加入while循环，输入退出命令时候，才关闭客户端
     while True:
         send_data = input('请输入要发送的数据(输入EXIT退出)：')
+        # 只要送的数据不是EXIT,就发送出去，一直循环
         if send_data != 'EXIT':
             tcp_client_socket.send(send_data.encode('gbk')) # 此处使用gbk编码，使用utf-8网络调试助手解码后乱码
+        # 如果是EXIT，就中断循环
         else:
             break
 

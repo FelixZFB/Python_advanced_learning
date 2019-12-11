@@ -22,13 +22,15 @@ def service_client(request_data, client_socket):
     # 提取出请求网页的名称，即/后面的内容
     # 先取出请求头的第一行
     request_line = request_header_lines[0]
-    # 匹配出/之外的任何字符，就是从GET开始匹配，然后从后面的/之后视为一个分组
-    # 匹配出出空格外的任何内容，即从第一个/开始匹配到空格结束
-    # 请求头的第一行request_line：GET /index.html HTTP/1.1
-    # 匹配结果：GET /index.html 我们提取出/以后的内容
+    # 上面提取出来的请求头的第一行是：GET /index.html HTTP/1.1
+    # 从/之外的任何字符开始匹配，匹配多次，相当于从GET开始匹配，
+    # 匹配到第一个/，后面匹配除了空格外的任何字符，相当于匹配到html结束，后面出现了空格
+    # 并且从/之后的匹配视为一个分组，分组里面匹配结果就是/index.html
+    # group(0)是取出匹配的整体结果：GET /index.html
+    # group(1)就是第一个分组：/index.html
     get_file_name = re.match("[^/]+(/[^ ]*)", request_line).group(1)
     # 加入系统路径，网页都是放在html文件夹中
-    get_file_name = "./html" + get_file_name
+    get_file_name = "./html" + get_file_name  # ./html/index.html
     print("file name is ===>%s" % get_file_name)
     print('*' * 50)
 
