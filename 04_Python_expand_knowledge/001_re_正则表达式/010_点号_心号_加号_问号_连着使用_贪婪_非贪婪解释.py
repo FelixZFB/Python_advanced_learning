@@ -22,16 +22,19 @@ print(res)
 print(res.group())
 print('*' * 50)
 
-html = '<H1>Chapter<H1><H1>Chapter<H1>END'
 res = re.match(r'<.+>', html)
 print(res)
 print(res.group())
 print('*' * 50)
 
+# 非贪婪，?后面有一个>，会找到第一个满足表达式的匹配就结束匹配
+res = re.match(r'<.*?>', html)
+print(res)
+print(res.group())
+print('*' * 50)
 
 # 非贪婪，?后面有一个>，会找到第一个满足表达式的匹配就结束匹配
-html = '<H1>Chapter<H1><H1>Chapter<H1>END'
-res = re.match(r'<.*?>', html)
+res = re.match(r'<.+?>', html)
 print(res)
 print(res.group())
 print('*' * 50)
@@ -50,32 +53,10 @@ print(res.group())
 # 本来是想匹配多个数字，但是后面有一个?，还是最小匹配1次
 res = re.match(r'<.*>\d+?', html1)
 print(res.group())
+
+# 匹配多个数字
 res = re.match(r'<.*>\d+', html1)
 print(res.group())
 print('*' * 50)
 
 
-print('特殊情况：')
-# 特殊情况，表达式中含有.*?但是？在后面不在一起
-# 都是贪婪匹配，?后面可以看做实际写了一个.*，最大匹配
-# 如果结尾是?号，直接匹配到末尾
-# 如果?号后面还有字符，直接匹配到最后一个符合条件的字符
-html1 = '<H1>Chapter<H1><H1>Chapter<H1>555END'
-res = re.match(r'<.*>?5', html1)
-print(res.group())
-print('*' * 50)
-
-html1 = '<H1>Chapter<H1><H1>Chapter<H1>555END'
-res = re.match(r'<.*>?N', html1)
-print(res.group())
-print('*' * 50)
-
-html1 = '<H1>Chapter<H1><H1>Chapter<H1>555END'
-res = re.match(r'<.*>?', html1)
-print(res.group())
-print('*' * 50)
-
-html1 = '<H1>Chapter<H1><H1>Chapter<H1>555END'
-res = re.match(r'<.*>?.*', html1)
-print(res.group())
-print('*' * 50)
