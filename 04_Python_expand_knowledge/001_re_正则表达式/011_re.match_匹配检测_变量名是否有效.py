@@ -1,10 +1,7 @@
 # -*- coding:utf-8 -*-
-
 import re
 
 names = ['name1', '_name', 'name_1_1', '2_name', '_name_', '#_name_','name?_', 'name!']
-
-
 
 for name in names:
     # 注意：\w等价于[A-Za-z0-9_]，但是可以匹配中文字符

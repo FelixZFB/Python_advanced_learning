@@ -2,7 +2,8 @@
 
 import re
 
-# |:匹配左右任意一个表达式，类似于or或
+# |:匹配左右任意一个表达式，一般写在分组()里面，
+# 小括号里面的匹配任意一个都可以，类似于or或
 # () 是为了提取匹配的字符串。
 # 表达式中有几个()就有几个相应的匹配字符串,一个()代表一个组。
 
@@ -14,7 +15,7 @@ import re
 ret = re.match(r'[a-zA-Z0-9]{6,12}@(163|126|qq)\.com$', 'laowang@qq.com')
 print(ret)
 print(ret.group())
-print(ret.group(0))
+print(ret.group(0)) # 不写数字或者0都是取出的整体
 print(ret.group(1))
 print('*' * 50)
 
