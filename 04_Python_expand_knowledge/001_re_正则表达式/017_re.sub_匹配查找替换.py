@@ -9,7 +9,7 @@ import re
 
 # sub替换案例
 # 删除注释
-phone = "2004-959-559 # 这是一个电话号码"
+phone = "028-00112233 # 这是一个电话号码"
 num = re.sub(r'#.*$', "", phone)
 print("电话号码 : ", num)
 print('*' * 50)

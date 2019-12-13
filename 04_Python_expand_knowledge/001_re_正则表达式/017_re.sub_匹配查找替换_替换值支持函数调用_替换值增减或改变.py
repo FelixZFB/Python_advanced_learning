@@ -2,6 +2,7 @@
 
 import re
 
+# 定义一个函数，tem参数就是正则匹配的结果
 def add(temp):
     strNum =temp.group()
     num = int(strNum) + 1

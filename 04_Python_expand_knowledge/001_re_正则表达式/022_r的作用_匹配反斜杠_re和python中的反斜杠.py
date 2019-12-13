@@ -16,9 +16,11 @@ import re
 # \a \b在python中都有特殊含义，所以打印不出来
 mm = "c:\a\b\c"
 print(mm)
+
 # 使用两个\\去掉转义含义或者使用r
 mm = "c:\\a\\b\\c"
 print(mm)
+
 # 字符串前面使用，r去掉\的转义含义，代表后面就是一个纯字符串
 mm = r"c:\a\b\c"
 print(mm)
