@@ -12,12 +12,12 @@ text='''
  </div>
 '''
 
-# 利用etree把字符串解析成一个HTML文件,并自动补全缺失项
+# 利用etree把字符串解析成一个XML文件,并自动补全缺失项
 html = etree.HTML(text)
+print(type(html))  # <class 'lxml.etree._Element'>
 
 # 解析对象输出代码，解析成字节文件
 result = etree.tostring(html, encoding='utf-8')
-print(type(html))
 print(type(result))
 print(result.decode('utf-8'))
 

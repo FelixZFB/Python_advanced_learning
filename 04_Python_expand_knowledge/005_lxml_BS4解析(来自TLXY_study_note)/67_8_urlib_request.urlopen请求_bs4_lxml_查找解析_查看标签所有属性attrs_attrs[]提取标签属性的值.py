@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 url = 'http://www.baidu.com'
 
 rsp = request.urlopen(url)
-content = rsp.read()
+content = rsp.read() # 直接读取结果是字节
 print(type(content))
 
 # 创建一个bs的实例

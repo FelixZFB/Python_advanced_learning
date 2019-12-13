@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 url = 'http://www.baidu.com'
 
 rsp = request.urlopen(url)
-content = rsp.read()
+content = rsp.read() # <class 'bytes'>
 
 # 创建一个bs的实例
 # lxml是指使用的 lxml HTML 解析器

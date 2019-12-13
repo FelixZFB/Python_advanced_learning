@@ -8,7 +8,8 @@ import re
 # 中括号每个字符都是一个匹配
 s = 'ab;cd%e\tfg,,jklioha;hp,vrww\tyz'
 t = re.split(r'[;%,\t]+', s)
-print(t)
+res = ('').join(t)
+print(res)
 
 
 # 上面可以使用中括号也可以使用竖线
