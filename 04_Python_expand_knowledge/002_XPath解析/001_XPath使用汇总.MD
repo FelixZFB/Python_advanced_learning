@@ -43,18 +43,22 @@
     //@lang	选取名为 lang 的所有属性
 
 - 路径添加谓语
-    / 配合元素位置使用
+    / 配合元素位置使用，/逐级向下选取，如果只有一个直接逐级使用/,如果有多个就要使用位置book[1]
     // 配合元素属性使用
     /bookstore/book 选取属于 bookstore 子元素的下一级的所有book 子元素。
     /bookstore//book 选取属于 bookstore 子元素的下的所有book 子元素。
     /bookstore/book[1]	选取属于 bookstore 子元素的第一个 book 元素。
+    /bookstore/book[2]	选取属于 bookstore 子元素的第二个 book 元素。
     /bookstore/book[last()]	选取属于 bookstore 子元素的最后一个 book 元素。
     /bookstore/book[last()-1]	选取属于 bookstore 子元素的倒数第二个 book 元素。
     /bookstore/book[position()<3]	选取最前面的两个属于 bookstore 元素的子元素的 book 元素。
     //title[@lang]	选取所有拥有名为 lang 的属性的 title 元素。
     //title[@lang='eng']	选取所有 title 元素，且这些元素拥有值为 eng 的 lang 属性。
-    /bookstore/book[price>35.00]	选取 bookstore 元素的所有 book 元素，且其中的 price 元素的值须大于 35.00。
+    
+    - 条件语句
+    /bookstore/book[price>35.00]	选取 bookstore 元素的所有 book 元素，且其中的 price 元素的值(标签里面的内容)须大于 35.00。
     /bookstore/book[price>35.00]/title	选取 bookstore 元素中的 book 元素的所有 title 元素，且其中的 price 元素的值须大于 35.00
+    //cell//data[text()=200 and @type="Number2"]/text()  data的内容是200和type属性是Number2的元素
 
 - 选取未知节点
     *	匹配任何元素节点。
@@ -64,6 +68,7 @@
     /bookstore/*	选取 bookstore 元素的所有子元素。
     //*	选取文档中的所有元素。
     //title[@*]	选取所有带有属性的 title 元素
+    //title[@id='novelInfo'] 选取所有拥有id为novelInfo的属性的title元素
     
     下面实例选取的结果相同，因为id='novelInfo'属性的元素是唯一的
     *代表选取文档中的所有元素，*[@id='novelInfo']选取文档所有id属性为novelInfo的元素
@@ -73,10 +78,12 @@
     
 - 选取若干路径
     - 通过在路径表达式中使用“|”运算符，您可以选取若干个路径
-    //book/title | //book/price	选取 book 元素的所有 title 和 price 元素。
-    //title | //price	选取文档中的所有 title 和 price 元素。
-    /bookstore/book/title | //price	选取属于 bookstore 元素的 book 元素的
-    所有 title 元素，以及文档中所有的 price 元素。
+    //book/title | //book/price	
+    选取 book 元素的所有 title 和 price 元素。
+    //title | //price	
+    选取文档中的所有 title 和 price 元素。
+    /bookstore/book/title | //price	
+    选取属于 bookstore 元素的 book 元素的下面的title 元素，以及文档中所有的 price 元素。
 
    
     
@@ -117,3 +124,38 @@
 - 参考ch12中cnblogSpider中XPath的使用
 - 参考ch17中yunqishuyuan中XPath的使用 
 - 参考TZKT项目中的相关使用XPath的案例
+
+
+- 难点补充1：
+- / // ./ ../ .//的区别
+- / 引入绝对位置路径，从文档的根开始。比如/book，只会文档中的book标签节点开始向下查找。
+- // 从匹配选择的当前节点选择文档中的节点，而不考虑它们的位置
+- . 从上下文节点开始引入相对位置路径。点称为“上下文项表达式”，找的是相对路径，和python中的文件路径一样，会找父级和子级。如果在表达式的开头加上一个点，它将使其特定于上下文。换句话说，它将id="Passwd"在您调用“通过XPath查找元素”方法的节点的上下文中搜索元素。
+- ./ 从选定的当前节点开始向下查找
+- ../ 选取当前节点的父节点开始向下查找
+- .// 从选择的当前节点处开始，向下查找，不管在文中的位置
+- 补充：.主要是为了引入上下文，相对路径，如果使用了.就表示从当前节点下开始
+- 参考：http://www.imooc.com/wenda/detail/579577
+- 实际数据解析中，都是选选定了文档，然后从当前文档的根节点开始，比如
+    - 一级文档：response，提取出二级内容：jobs，然后再每个jobs里面继续提取jobname
+    - jobs = response.xpath(".//div[@id='resultList']//div[@class='el']")
+    - jobName = job.xpath("./p/span/a/text()").extract_first().strip()
+ 
+ 
+- 难点补充2：   
+- lxml中的XPath和Scrapy中selector下的XPath提取元素语法有不同：
+    - 参考002和003案例
+    - 补充参考
+    - 参考TZKT中的P02和P03项目
+    - XPath中
+    for job in jobs:
+        # 匹配结果仍然是一个列表类型,列表中只有一个元素，提取元素并去掉里面的空格
+        # scrapy使用的selector中的xpath不能用这种[0].strip()列表语法，使用extract()提取所有内容为一个列表,extract_first()提取第一个列表元素
+        # 从当前的job下开始选取
+        name = job.xpath("./p/span/a/text()")[0].strip()
+    - scrapy中
+     for job in jobs:
+        # 匹配结果仍然是一个列表类型,列表中只有一个元素，
+        # P02中已经提取过，发现里面有很多空格，提取第一个元素的值并去掉里面的空格
+        # 注意P02使用的是etree.HTML解析源码，提取元素可以使用列表语法，该处selector下的xpath不可以
+        jobName = job.xpath("./p/span/a/text()").extract_first().strip()
