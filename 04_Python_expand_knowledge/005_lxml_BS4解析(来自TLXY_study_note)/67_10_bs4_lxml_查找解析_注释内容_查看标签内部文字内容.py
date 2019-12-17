@@ -9,6 +9,6 @@ soup = BeautifulSoup(markup, 'lxml')
 # 查看注释对象中的注释内容
 comment = soup.b.string
 
-print(type(comment))
+print(type(comment))  # 特殊对象 注释  <class 'bs4.element.Comment'>
 print(comment)
 

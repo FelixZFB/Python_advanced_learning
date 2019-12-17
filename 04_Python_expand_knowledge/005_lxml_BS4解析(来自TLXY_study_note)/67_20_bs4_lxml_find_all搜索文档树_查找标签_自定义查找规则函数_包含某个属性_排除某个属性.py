@@ -15,3 +15,13 @@ def has_class_but_no_id(tag):
 
 result = soup.find_all(has_class_but_no_id)
 print(result)
+print("*" * 50)
+# 返回的列表中是3个p标签，p标签里面含有的a标签
+
+
+def has_class_and_id(tag):
+    return tag.has_attr('class') and  tag.has_attr('id')
+result = soup.find_all(has_class_and_id)
+print(result)
+print("*" * 50)
+# 返回的列表结果就是3个a标签

@@ -16,8 +16,10 @@ text='''
 html = etree.HTML(text)
 print(type(html))  # <class 'lxml.etree._Element'>
 
-# 解析对象输出代码，解析成字节文件
+# 将上面解析后的html文件又解析成字节文件
 result = etree.tostring(html, encoding='utf-8')
 print(type(result))
+# 字节使用utf-8编码格式解码为字符串
+print(type(result.decode('utf-8')))
 print(result.decode('utf-8'))
 

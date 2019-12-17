@@ -20,9 +20,10 @@ from bs4 import BeautifulSoup
 soup = BeautifulSoup(html_doc, 'lxml')
 # print(soup)
 
-# 查看子节点
+# 查看head和title标签
 print(soup.head)
 print(soup.title)
+print('*' * 50)
 
 # 获取<body>标签中的第一个<b>标签,b为字体加粗标签
 print(soup.body.b)
@@ -31,5 +32,5 @@ print(soup.body.b)
 # find_all，返回的是一个列表
 print(soup.find_all('a'))
 
-# 第一个body标签中，a标签的所有属性，返回的是一个字典
+# 句点法获取body中的第一个a标签，a标签的所有属性，返回的是一个字典
 print(soup.body.a.attrs)

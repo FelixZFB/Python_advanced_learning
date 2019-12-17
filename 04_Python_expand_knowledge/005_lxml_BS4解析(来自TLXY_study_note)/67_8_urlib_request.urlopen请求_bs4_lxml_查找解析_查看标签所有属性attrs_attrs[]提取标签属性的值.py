@@ -14,9 +14,8 @@ print(type(content))
 # lxml是指使用的 lxml HTML 解析器
 soup = BeautifulSoup(content, 'lxml')
 
-# bs4可以自动转码
-content = soup.prettify()
-
+# 调用prettify()方法。这个方法可以把要解析的字符串以标准的缩进格式输出。这里需要注意的是，输出结果里面包含body和html节点，也就是说对于不标准的HTML字符串BeautifulSoup，可以自动更正格式。这一步不是由prettify()方法做的，而是在初始化BeautifulSoup时就完成了。
+soup.prettify()
 
 # 实际meta,link标签有很多，但是只会打印第一个
 print(soup.meta)

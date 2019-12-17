@@ -13,6 +13,7 @@ title_tag = head_tag.contents[0]
 print(head_tag)
 print(title_tag)
 
+
 # title标签下只有一个 NavigableString（字符串对象）类型子节点
 print(title_tag.string)
 

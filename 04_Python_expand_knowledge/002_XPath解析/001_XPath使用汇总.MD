@@ -159,3 +159,12 @@
         # P02中已经提取过，发现里面有很多空格，提取第一个元素的值并去掉里面的空格
         # 注意P02使用的是etree.HTML解析源码，提取元素可以使用列表语法，该处selector下的xpath不可以
         jobName = job.xpath("./p/span/a/text()").extract_first().strip()
+        
+
+- 难点补充3：
+描述一下XML lxml XPath之间有什么关系？
+- XML是一种类似html的标记语言
+- lxml是python的一个解析库，支持HTML和XML的解析
+- XPath，全称XML Path Language，即XML路径语言，它是一门在XML文档中查找信息的语言，它最初是用来搜寻XML文档的，但是它同样适用于HTML文档的搜索
+- 使用步骤：请求网页获取的text文本内容，使用lxml解析为XML语言，然后使用XPath查找；
+- 请求网页获取到的bytes内容，可以使用BeautifulSoup4(bs4也可以传入字符串，bs4会根据传入类型自己识别解码)，解析模块可以选择lxml进行解析，然后查找.

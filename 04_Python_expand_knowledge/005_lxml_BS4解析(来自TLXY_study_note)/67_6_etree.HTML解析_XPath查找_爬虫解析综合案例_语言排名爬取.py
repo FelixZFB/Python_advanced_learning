@@ -12,7 +12,7 @@ def one_to_page(html):
     }
     try:
         response = requests.get(html, headers=headers)
-        body = response.text  # 获取网页内容
+        body = response.text  # 获取网页内容，字符串类型
     except RequestException as e:
         print('request is error!', e)
     try:

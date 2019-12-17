@@ -12,12 +12,11 @@ link = soup.a
 print(link)
 # 打印出所有的父节点
 print(type(link.parents))
+print("*" * 50)
+
+# 取出所有上面a节点的父节点的名称
 for parent in link.parents:
-    if parent is None:
-        print(parent)
-    else:
         print(parent.name)
+print("*" * 50)
 
 # 兄弟节点，同一级别
-sibling_soup = BeautifulSoup("<a><b>text1</b><c>text2</c></a>")
-print(sibling_soup.prettify())

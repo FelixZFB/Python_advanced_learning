@@ -12,8 +12,9 @@ headers = {'User-Agent': user_agent}
         # 请求获取网址
 r = requests.get(url, headers=headers)
 r.encoding = 'utf-8' # 解决中文乱码的问题
-# print(r.text)
+print(type(r.text))  # <class 'str'>
 
+# 指定原始文档的编码格式
 soup = BeautifulSoup(r.text, 'html.parser', from_encoding='utf-8')
 
 # 方法1：使用正则提取代码中部分a标签

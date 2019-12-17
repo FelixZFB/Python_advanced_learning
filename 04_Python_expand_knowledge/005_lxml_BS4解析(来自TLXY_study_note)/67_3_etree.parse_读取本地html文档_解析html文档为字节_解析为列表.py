@@ -5,6 +5,7 @@ from lxml import etree
 # 打开HTML文件
 #指定解析器HTMLParser会根据文件修复HTML文件中缺失的如声明信息
 html = etree.parse('./67_3.html', etree.HTMLParser())
+print(type(html)) # <class 'lxml.etree._ElementTree'>
 
 #解析成字节
 result1 = etree.tostring(html, pretty_print=True)
@@ -12,7 +13,7 @@ result1 = etree.tostring(html, pretty_print=True)
 result2 = etree.tostringlist(html)
 
 
-print(type(result1))
+print(type(result1))  # <class 'bytes'>
 print(type(result2))
 
 print(result1)
