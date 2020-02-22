@@ -15,7 +15,7 @@
         lang="en" （属性节点）
     - 元素就相当于HTML中的标签
         
-- 基本值（或称原子值，Atomic value）
+- 基本值 （或称原子值，Atomic value）
     J K. Rowling
     "en"
 
