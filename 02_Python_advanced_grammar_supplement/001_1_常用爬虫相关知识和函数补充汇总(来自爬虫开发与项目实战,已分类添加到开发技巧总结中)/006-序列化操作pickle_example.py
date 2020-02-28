@@ -1,4 +1,6 @@
 # 序列化操作案例
+# 变量从内存中变成可存储或传输的过程称之为序列化，在Python中叫pickling
+
 # coding: utf-8
 import pickle
 
