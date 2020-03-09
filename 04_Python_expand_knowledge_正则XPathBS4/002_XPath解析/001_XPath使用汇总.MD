@@ -30,6 +30,12 @@
     - ./ 从当前节点的根节点开始选取，就是选取当前节点的子节点
         - 比如先找到了很多DIV标签，然后遍历DIV标签，.就代表当前的的DIV标签，从DIV标签下面子标签开始选取
     - .// 从匹配当前节点的根节点开始选取，位于当前节点之下，不管他们在文中的位置
+    - dt//text()  选取dt标签下面所有的文字内容，不管在什么位置 
+        - scrapy中使用//text()，后面要使用extract()取出所有的文字内容，结果是一个列表，如果用extract_first()只会取出第一个结果的内容
+        - 然后一般还需要取出每个文字内容两端的空白及换行符，需要使用列表循环去除
+        - item['b_cate'] = div.xpath('./dl/dt//text()').extract() # 注意：大分类文字查看元素是放在dt下面span标签下多个a标签里面，但是response实际是没有span标签的，此处直接使用//text()取出dt标签下的所有文字内容，结果是一个列表
+        - item['b_cate'] = [i.strip() for i in item['b_cate'] if len(i.strip()) > 0] # 取出文字内容两端的换行及空白内容，保留实际长度大于0的内容，去掉列表中的空元素
+        - 具体查看Spider_scrapy_intensive_study项目文件中006中的dangdang爬虫
     - 参考第4部分难点解释
     
     
@@ -149,19 +155,55 @@
     - 参考002和003案例
     - 补充参考
     - 参考TZKT中的P02和P03项目
-    - XPath中
+    - 普通的XPath中
     for job in jobs:
         # 匹配结果仍然是一个列表类型,列表中只有一个元素，提取元素并去掉里面的空格
         # scrapy使用的selector中的xpath不能用这种[0].strip()列表语法，使用extract()提取所有内容为一个列表,extract_first()提取第一个列表元素
         # 从当前的job下开始选取
         name = job.xpath("./p/span/a/text()")[0].strip()
-    - scrapy中
+    - scrapy中selector下的XPath中
      for job in jobs:
         # 匹配结果仍然是一个列表类型,列表中只有一个元素，
         # P02中已经提取过，发现里面有很多空格，提取第一个元素的值并去掉里面的空格
         # 注意P02使用的是etree.HTML解析源码，提取元素可以使用列表语法，该处selector下的xpath不可以
+        # xpath的提取结果是一个selector的list，并不是和上面普通xpath的结果一样是一个内容的list。所以要使用extract_first()或者extract()提取出来内容
+        # .extract_first()：提取SelectorList对象中第一个元素的内容。即返回列表中的第一个元素的字符串内容。
+        # .extract()：如果是SelectorList对象使用，则返回包含所有Selector中字符串内容的列表；如果是Selector(就是一个选择器结果)使用，则返回该Selector的所有内容。
         jobName = job.xpath("./p/span/a/text()").extract_first().strip()
-        
+        jobName = job.xpath("./p/span/a/text()").extract()[0].strip()
+     
+     - 普通爬虫中如果要使用selector选择器：可以使用parsel中的Selector解析器
+```python
+import requests
+from parsel import Selector
+
+# 一个具有User-Agent用户识别的网址
+url = "http://www.porters.vip/verify/uas/index.html"
+
+# 添加请求头信息，里面加入浏览器信息,用于伪装身份信息
+headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.25 Safari/537.36 Core/1.70.3730.400 QQBrowser/10.5.3805.400"}
+
+res = requests.get(url=url, headers=headers)
+# 打印请求状态码
+print(res.status_code)
+# 如果请求的状态码为200，则继续
+if res.status_code == 200:
+    html = Selector(res.text)
+    # 结果是一个SelectorList对象
+    title = html.xpath('//li[@class="list-group-item"]/text()')
+    print(type(title))
+    # extract()提取所有Selector对象的内容，返回一个内容列表
+    title = title.extract()
+    print(title)
+else:
+    print('This request is fail.')
+
+```
+```
+200
+[<Selector xpath='//li[@class="list-group-item"]/text()' data='三门峡市陕州区一中餐厅管理工作...'>, <Selector xpath='//li[@class="list-group-item"]/text()' data='鹤壁七中多措并举助推“六城联创...'>, <Selector xpath='//li[@class="list-group-item"]/text()' data='沙溪中学开展“扫黑除恶”专项宣...'>, <Selector xpath='//li[@class="list-group-item"]/text()' data='中牟县晨阳路学校：“点缀生活 ...'>, <Selector xpath='//li[@class="list-group-item"]/text()' data='上饶市第二保育院开展预防手足口...'>]
+['三门峡市陕州区一中餐厅管理工作...', '鹤壁七中多措并举助推“六城联创...', '沙溪中学开展“扫黑除恶”专项宣...', '中牟县晨阳路学校：“点缀生活 ...', '上饶市第二保育院开展预防手足口...']
+```
 
 - 难点补充3：
 描述一下XML lxml XPath之间有什么关系？
@@ -172,6 +214,7 @@
 - 请求网页获取到的bytes内容，可以使用BeautifulSoup4(bs4也可以传入字符串，bs4会根据传入类型自己识别解码)，解析模块可以选择lxml进行解析，然后查找.
 
 # 5 实用补充：
+- 实用补充1：
 - xpath获取当前标签的兄弟节点，父节点
 
 <div>
