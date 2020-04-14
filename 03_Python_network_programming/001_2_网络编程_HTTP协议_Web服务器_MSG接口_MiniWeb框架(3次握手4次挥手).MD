@@ -434,7 +434,7 @@
 
 - 浏览器请求动态页面过程
     参考图片009/010
-    案例001/002
+    案例001/002 (005文件夹中)
 
 ## 3.2 WSGI接口  MiniWeb框架 介绍
 - Web Server Gateway Interface (或简称 WSGI，读作“wizgy”)
@@ -484,7 +484,7 @@
     001_MSGI_面向对象_Web服务器_解析静态资源请求
     002_MSGI_面向对象_Web服务器_集成解析动态资源请求
 
-- Web服务器使用WSGI接口
+- Web服务器使用WSGI接口(案例单独放在文件夹中)
 
 - 001_MSGI_MiniWeb_Web服务器和逻辑处理代码分开
     动态请求单独使用mini_frame处理请求
