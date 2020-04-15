@@ -6,6 +6,8 @@
 # 程序会根据请求提取出名字，然后进入到html文件中查找匹配相关文件
 # 然后再浏览器中显示出来
 
+# 003升级为多进程，快速点击不同的连接，明显发现004打开网页速度会更快
+
 import socket
 import re
 import multiprocessing

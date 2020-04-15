@@ -63,6 +63,7 @@ def service_client(request_data, client_socket):
 
         response_header = "HTTP/1.1 200 OK\r\n"  # 200表示找到这个资源
         # 告诉客户端body数据的长度，可以消除长连接一直等待数据问题
+        # 浏览器得到的数据长度达到返回的长度就会主动断开连接，避免一直连接占用资源
         response_header += "Content-Length:%d\r\n" % len(response_body)
         response_header += "\r\n"  # 用一个空的行与body进行隔开，作为换行符
 

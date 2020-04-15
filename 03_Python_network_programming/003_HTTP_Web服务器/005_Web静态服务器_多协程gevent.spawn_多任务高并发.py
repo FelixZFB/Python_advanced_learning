@@ -89,7 +89,7 @@ def main():
         new_socket, client_addr = server_socket.accept()
 
         # 5. 使用协程创建任务,并开始这个协程任务，注意创建后要使用join开始
-        g = gevent.spawn(service_client, new_socket)
+        g = gevent.spawn(service_client, new_socket) # 传入函数及参数
         g.join()
 
 

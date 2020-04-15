@@ -92,7 +92,7 @@ class WSGIServer():
             # 代码执行流程：查看mini_frame.py中的说明
             # 字典中存储的是web服务器要传递给web框架的数据信息
             env = dict()
-            # 将file_name加入到字典中，传递给web框架使用
+            # 将file_name作为值加入到字典中，传递给web框架使用
             env['PATH_INFO'] = file_name # {'PATH_INFO': '/index.py'}
 
             response_body = mini_frame.application(env, self.set_response_header)

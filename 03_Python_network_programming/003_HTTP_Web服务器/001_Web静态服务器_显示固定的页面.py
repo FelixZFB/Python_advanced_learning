@@ -6,18 +6,18 @@ import socket
 
 
 def service_client(new_socket):
-    "为一个客户端进行服务,为这个客户端返回数据"
+    "为一个客户端进行服务,为这个客户端返回数据，传入的参数就是监听套接字返回的客户端"
 
-    # 1. 接收浏览器发送过来的请求，即HTTP请求
+    # 1. 接收浏览器发送过来的请求，即HTTP请求信息，request信息
     request_data = new_socket.recv(1024).decode("utf-8")
-    request_header_lines = request_data.splitlines()
+    request_header_lines = request_data.splitlines() # 以行进行分割，得到一个列表
     # 格式化打印出请求报文信息，换行打出
     for line in request_header_lines:
         print(line)
 
     # 2. 返回http格式的数据给浏览器
-    # 2.1 组织相应头信息(header)，浏览器中换行使用\r\n
-    response_headers = "HTTP/1.1 200 OK\r\n"  # 200表示找到这个资源
+    # 2.1 组织相应头信息(header)，浏览器中换行使用\r\n，换行到第二行开始，然后下面再插入一个空行
+    response_headers = "HTTP/1.1 200 OK\r\n"  # 200表示找到这个资源，后面\r\n必须要有
     response_headers += "\r\n"  # 用一个空的行与body进行隔开，作为换行符
     # 组织内容(body)
     response_body = "hello world \r\nWeb静态服务器显示一个固定页面\r\n打猪猪"
@@ -36,22 +36,23 @@ def main():
     # 1. 创建tcp套接字
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-    # 设置当服务器先close，即服务器端4次挥手之后资源能够立即释放，这样就保证了，下次运行程序时 可以立即绑定7788端口
+    # 设置该服务器先close，即服务器端4次挥手之后资源能够立即释放，这样就保证了，下次运行程序时 可以立即绑定7788端口
     server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
-    # 2. 服务器绑定本地IP地址和端口
+    # 2. 服务器绑定本地IP地址（127.0.0.1 可以省略）和端口
     server_socket.bind(("", 7788))
 
-    # 3. 设置为监听套接字
+    # 3. 设置为监听套接字，一直处于阻塞监听状态，有新的客户端链接时候解除阻塞，返回新的客户端
     server_socket.listen(128)
 
-    # 加入循环，服务器一直处于运行状态，可以不断接收新的客户端请求，
+    # 加入循环，服务器一直处于运行状态，可以不断接收新的客户端请求，有了新的请求过来，就返回一个新的客户端
+    # 相当于从上面监听的结果中不断的取出新的客户端
     # 浏览器可以通过刷新不断请求该服务器
     while True:
         # 4. 等待新客户端的连接，返回一个新的客户端专用套接字
         new_socket, client_addr = server_socket.accept()
 
-        # 5. 为这个客户端服务
+        # 5. 为这个新客户端服务，调用上面为该客户端具体服务的方法，传入参数就是该新客户端
         service_client(new_socket)
 
 

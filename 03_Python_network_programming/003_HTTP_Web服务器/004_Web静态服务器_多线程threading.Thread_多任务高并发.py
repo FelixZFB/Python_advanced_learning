@@ -87,7 +87,7 @@ def main():
         # 4. 等待新客户端的连接，返回一个新的客户端专用套接字
         new_socket, client_addr = server_socket.accept()
 
-        # 5. 使用多进程为这个客户端服务，有新的请求，又重新创建一个子进程
+        # 5. 使用多进程为这个客户端服务，有新的请求，又重新创建一个子进程，注意参数后面的逗号不能省略
         new_process = threading.Thread(target=service_client, args=(new_socket, ))
         new_process.start()
 

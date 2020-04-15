@@ -27,6 +27,7 @@ def service_client(new_socket):
     # 并且从/之后的匹配视为一个分组，分组里面匹配结果就是/index.html
     # group(0)是取出匹配的整体结果：GET /index.html
     # group(1)就是第一个分组：/index.html
+    # 下面提取方法是最通用写法，可以排除其它符号的影响
 
     get_file_name = re.match("[^/]+(/[^ ]*)", request_line).group(1)
     print("请求的file name is ===>%s" % get_file_name)
@@ -37,11 +38,11 @@ def service_client(new_socket):
     html_content = f.read()
     f.close()
 
-    # 2.1 组织相应头信息(header)，浏览器中换行使用\r\n
+    # 2.1 组织相应头信息(header)，浏览器中换行使用\r\n，换行到第二行开始，然后下面再插入一个空行
     response_headers = "HTTP/1.1 200 OK\r\n"  # 200表示找到这个资源
     response_headers += "\r\n"  # 用一个空的行与body进行隔开，作为换行符
     # 组织内容(body)
-    # 返回一个本地已经编辑好的前端html页面
+    # 返回一个本地已经编辑好的前端html页面，即上面读取网页得到的html_content
 
     # 2.2 组织响应报文，发送数据,由于已经不是单纯的字符串，不能使用拼接
     # 头和体信息单独发送

@@ -19,8 +19,9 @@ def profile():
 
 
 def application(environ, start_response):
+    # 返回响应头的headers的信息
     start_response('200 OK', [('Content-Type', 'text/html;charset=utf-8'), ('Connection', 'keep-alive')])
-
+    # 取出字典的值
     file_name = environ['PATH_INFO']
 
     if file_name == '/login.py':

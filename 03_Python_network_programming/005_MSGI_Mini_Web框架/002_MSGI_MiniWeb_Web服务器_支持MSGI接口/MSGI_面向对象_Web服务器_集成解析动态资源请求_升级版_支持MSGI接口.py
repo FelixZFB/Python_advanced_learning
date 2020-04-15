@@ -90,12 +90,13 @@ class WSGIServer():
             # 以下代码就实现了Web服务器支持MSGI协议
             # 代码执行流程：查看mini_frame.py中的说明
             env = dict()
-            response_body = mini_frame.application(env, self.set_response_header)
+            response_body = mini_frame.application(env, self.set_response_header) # 具体函数参考下面
 
 
             response_header = 'HTTP/1.1 %s\r\n' % self.status
             # 提取出self.headers里面的信息，添加到response_header中去
             # headers是一个列表，每个元素又是一个元组，取出列表的第一个元素和第二个元素，加上冒号，就变成了了html的格式了
+            #
             for temp in self.headers:
                 response_header += '%s:%s\r\n' %(temp[0], temp[1])
             # header和body之间加上空行
@@ -112,10 +113,12 @@ class WSGIServer():
     # 定义一个函数，专门用于返回动态请求的headers信息
     def set_response_header(self, status, headers):
         # status和headers来自服务器框架
-        self.status = status
+        self.status = status  # self.status = '200 OK'
         # 手动加一个Web服务器的版本信息
         self.headers = [('Server', 'mini_web v8.0')]
         self.headers += headers
+        # 列表相加得到一个新的列表，上面循环取出然后元组元素之间加上冒号就变成了HTML响应头格式，返回
+        # [('Server', 'mini_web v8.0'), ('Content-Type', 'text/html;charset=utf-8'), ('Connection', 'keep-alive')]
 
 
     def run_forever(self):
