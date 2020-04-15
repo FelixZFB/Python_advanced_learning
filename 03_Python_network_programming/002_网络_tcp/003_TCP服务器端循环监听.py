@@ -13,6 +13,7 @@ def main():
     tcp_server_socket.bind(addr)
 
     # 3. 使用socket创建的套接字默认的属性是主动的，使用listen将其变为被动的，这样就可以接收别人的链接了
+    # 该监听套接字启动后一直会处于监听状态
     tcp_server_socket.listen(128)
     print('监听中，等待客户端链接......')
 
@@ -33,7 +34,7 @@ def main():
             # 循环为某一个客户多次服务
             while True:
                 # 5. 接收客户端发送过来的数据,返回数据，此时等待也会处于阻塞状态
-                # 解阻塞有两种方式：客户端发来数据和对方客户端断开连接(客户端调用了close)
+                # 解阻塞有两种方式：客户端发来数据和对方客户端断开连接(客户端调用了close)，网络调试助手上面断开连接即可调用close
                 recv_data = new_client_socket.recv(1024)
                 print('客户端发过来的数据是：%s' % recv_data.decode('gbk'))
 

@@ -27,7 +27,7 @@ def recv_msg(udp_socket):
 def main():
     # 1. 创建udp套接字对象
     udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    # 2. 绑定IP地址和端口(传入的是一个tuple类型)
+    # 2. udp套接字对象绑定IP地址和端口(传入的是一个tuple类型)
     udp_socket.bind(('127.0.0.1', 7999))
 
     # 循环循环来处理请求
