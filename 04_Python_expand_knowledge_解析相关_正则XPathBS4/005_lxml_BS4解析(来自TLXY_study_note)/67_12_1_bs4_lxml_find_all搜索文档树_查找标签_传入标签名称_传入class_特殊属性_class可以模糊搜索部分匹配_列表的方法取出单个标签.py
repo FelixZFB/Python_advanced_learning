@@ -12,8 +12,12 @@ with open('./67_12.html') as f:
 print(soup.find_all(class_=re.compile("itl")))
 
 # class的值可以搜索部分，也可以全部写入，下面三个结果一样
-css_soup = BeautifulSoup('<p class="body strikeout"></p>', 'lxml')
+css_soup = BeautifulSoup('<p class="body strikeout">123</p><p class="body strikeout">456</p>', 'lxml')
 print(css_soup.find_all("p", class_="body"))
 print(css_soup.find_all("p", class_="strikeout"))
 print(css_soup.find_all("p", class_="body strikeout"))
 
+res = css_soup.find_all("p", class_="body strikeout")
+print(type(res))
+print(res[1])
+print(res[1].string)

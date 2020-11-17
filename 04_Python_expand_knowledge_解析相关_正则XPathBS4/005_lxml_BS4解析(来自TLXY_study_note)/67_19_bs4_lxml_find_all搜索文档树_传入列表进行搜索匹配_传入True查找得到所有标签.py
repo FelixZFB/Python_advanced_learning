@@ -10,6 +10,8 @@ with open('./67_12.html') as f:
 # 找到文档中所有<a>标签和<b>标签
 print(soup.find_all(['a','b']))
 print("*" * 50)
+print(type(soup.find_all(['a','b'])))
+print("*" * 50)
 
 # True 可以匹配任何值的标签，即返回所有标签
 # 实际返回的是一个包含html文档内容的列表
